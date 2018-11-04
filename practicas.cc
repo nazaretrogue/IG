@@ -89,6 +89,22 @@ void special_keys( int tecla, int x, int y )
 }
 
 //***************************************************************************
+// Funcion llamada cuando se produce aprieta una tecla especial
+//
+// el evento manda a la funcion:
+// codigo de la tecla
+// posicion x del raton
+// posicion y del raton
+
+//***************************************************************************
+
+void funcion_desocupado()
+{
+	if(escena != NULL)
+		escena->mgeDesocupado();
+}
+
+//***************************************************************************
 // Programa principal
 //
 // Se encarga de iniciar la ventana, asignar las funciones e comenzar el

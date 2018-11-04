@@ -37,7 +37,7 @@ class ObjMallaIndexada
 	// función que redibuja el objeto
 	// está función llama a 'draw_MI' (modo inmediato)
 	// o bien a 'draw_MD' (modo diferido, VBOs)
-	void draw(int mode, int dibujo) ;
+	void draw(int mode, bool dibujo) ;
 
 	// función para crear los VBOs
 	GLuint crearVBO(GLuint tipo_vbo, GLuint tamanio_bytes, GLvoid *puntero_ram);

@@ -93,6 +93,8 @@ void ObjMallaIndexada::pintarAjedrez()
 	std::vector<Tupla3i> caras_pares;
 	std::vector<Tupla3i> caras_impares;
 
+	glVertexPointer(3, GL_FLOAT, 0, vertices.data());
+
 	for(int num_caras=0; num_caras<triangulos.size(); num_caras++)
 	{
 		if(num_caras%2 == 0)
@@ -113,9 +115,9 @@ void ObjMallaIndexada::pintarAjedrez()
 // Función de visualización de la malla,
 // puede llamar a  draw_ModoInmediato o bien a draw_ModoDiferido
 
-void ObjMallaIndexada::draw(int mode, int dibujo)
+void ObjMallaIndexada::draw(int mode, bool dibujo)
 {
-	if(dibujo == 0)
+	if(dibujo)
 	{
 		std::cout << "Pintando en modo inmediato" << std::endl;
 		draw_ModoInmediato(mode);
@@ -214,7 +216,7 @@ ObjRevolucion::ObjRevolucion(const std::string & nombre_ply_perfil, bool tapa_su
 	std::vector<Tupla3f> perfil_original;
 
 	ply::read_vertices(nombre_ply_perfil, perfil_original);
-	crearMalla(perfil_original, 1000, tapa_sup, tapa_inf);
+	crearMalla(perfil_original, 20, tapa_sup, tapa_inf);
 }
 
 // *****************************************************************************
@@ -229,18 +231,14 @@ void ObjRevolucion::crearMalla(const std::vector<Tupla3f> &perfil_original,
 	Tupla3f vert;
 	int indice_tapa_sup, indice_tapa_inf;
 
-	// Se guardan los vértices originales
-	for(int i=0; i<M; i++)
-		vertices.push_back(perfil_original[i]);
-
-	// Se calculan los vértices restantes
+	// Se calculan los vértices
 	for(int i=0; i<num_instancias_perf; i++)
 	{
 		for(int j=0; j<M; j++)
 		{
-			vert(0) = perfil_original[j](0)*cos((2*i*M_PI)/M);
+			vert(0) = perfil_original[j](0)*cos((2*i*M_PI)/num_instancias_perf);
 			vert(1) = perfil_original[j](1);
-			vert(2) = perfil_original[j](0)*sin((2*i*M_PI)/M);
+			vert(2) = perfil_original[j](0)*sin((2*i*M_PI)/num_instancias_perf);
 
 			vertices.push_back(vert);
 		}
@@ -329,7 +327,6 @@ Cilindro::Cilindro(const int num_vert_perfil, const int num_instancias_perf)
 	{
 		tupla(0) = 1;
 		tupla(1) += (1.0/num_vert_perfil);
-		std::cout << "tupsjd" << tupla(1) << std::endl;
 		tupla(2) = 0;
 
 		perfil.push_back(tupla);
@@ -379,15 +376,12 @@ Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf)
 	std::vector<Tupla3f> perfil;
 	Tupla3f tupla;
 
-	// Inicializamos las coordenadas 'x' e 'y'
-	tupla(1) = -1.0-(1.0/num_vert_perfil);
-
 	// Vértices del perfil inicial
-	for(int i=0; i<=2*num_vert_perfil; i++)
+	for(int i=0; i<=num_vert_perfil; i++)
 	{
-		tupla(1) += (1.0/num_vert_perfil);
-		tupla(0) = sqrt(1.0-pow(tupla(1),2));
-		tupla(2) = 0;
+		tupla(0) = cos(-M_PI/2.0+i*(M_PI/(float)num_vert_perfil));
+		tupla(1) = sin(-M_PI/2.0+i*(M_PI/(float)num_vert_perfil));
+		tupla(2) = 0.0;
 
 		perfil.push_back(tupla);
 	}
