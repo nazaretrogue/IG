@@ -22,9 +22,12 @@ Escena::Escena()
     cubo = new Cubo();
 	tetraedro = new Tetraedro();
 	objply = new ObjPLY("./plys/ant.ply");
-	objrev = new ObjRevolucion("./plys/peon.ply");
+	objrev = new ObjRevolucion("./plys/peon.ply", true, true);
+	cilindro = new Cilindro(45, 100);
+	cono = new Cono(45, 100);
+	esfera = new Esfera(45, 100);
 
-    num_objetos = 4 ; // se usa al pulsar la tecla 'O' (rotar objeto actual)
+    num_objetos = 7 ; // se usa al pulsar la tecla 'O' (rotar objeto actual)
 }
 
 //**************************************************************************
@@ -66,11 +69,11 @@ void Escena::dibujar_objeto_actual()
 			break;
 
 		case 2:
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glPolygonMode(GL_FRONT, GL_FILL);
 			break;
 
 		case 3:
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glPolygonMode(GL_FRONT, GL_FILL);
 			break;
 	}
 
@@ -93,6 +96,18 @@ void Escena::dibujar_objeto_actual()
 
 	  case 3:
 		 if(objrev != nullptr) objrev->draw(modo, modo_dibujo);
+		 break;
+
+	  case 4:
+		 if(cilindro != nullptr) cilindro->draw(modo, modo_dibujo);
+		 break;
+
+	  case 5:
+		 if(cono != nullptr) cono->draw(modo, modo_dibujo);
+		 break;
+
+	  case 6:
+		 if(esfera != nullptr) esfera->draw(modo, modo_dibujo);
 		 break;
 
       default:

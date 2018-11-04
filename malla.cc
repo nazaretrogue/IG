@@ -169,6 +169,9 @@ Cubo::Cubo()
 
 // *****************************************************************************
 //
+// Clase tetraedro
+//
+// *****************************************************************************
 
 Tetraedro::Tetraedro()
 {
@@ -199,59 +202,196 @@ ObjPLY::ObjPLY( const std::string & nombre_archivo )
 // Clase ObjRevolucion (práctica 2)
 //
 // *****************************************************************************
+// Constructor por defecto
 
+ObjRevolucion::ObjRevolucion() {}
 
 // *****************************************************************************
 // objeto de revolución obtenido a partir de un perfil (en un PLY)
 
-ObjRevolucion::ObjRevolucion(const std::string & nombre_ply_perfil)
+ObjRevolucion::ObjRevolucion(const std::string & nombre_ply_perfil, bool tapa_sup, bool tapa_inf)
 {
 	std::vector<Tupla3f> perfil_original;
 
 	ply::read_vertices(nombre_ply_perfil, perfil_original);
-	crearMalla(perfil_original, 1000);
+	crearMalla(perfil_original, 1000, tapa_sup, tapa_inf);
 }
 
 // *****************************************************************************
 // objeto de revolución obtenido a partir de un perfil (en un PLY)
 
 void ObjRevolucion::crearMalla(const std::vector<Tupla3f> &perfil_original,
-							   const int num_instancias_perf)
+							   const int num_instancias_perf,
+							   bool tapa_sup, bool tapa_inf)
 {
-	int size = perfil_original.size();
+	int M = perfil_original.size();
 	int a, b;
+	Tupla3f vert;
+	int indice_tapa_sup, indice_tapa_inf;
 
-	for(int i=0; i<size; i++)
+	// Se guardan los vértices originales
+	for(int i=0; i<M; i++)
 		vertices.push_back(perfil_original[i]);
 
+	// Se calculan los vértices restantes
 	for(int i=0; i<num_instancias_perf; i++)
 	{
-		for(int j=0; j<size; j++)
-			vertices.push_back(perfil_original[j]*((2*i*M_PI)/size));
-
-		for(int j=0; j<size-1; j++)
+		for(int j=0; j<M; j++)
 		{
-			a = size*i+j;
-			b = size*((i+1)%num_instancias_perf)+j;
+			vert(0) = perfil_original[j](0)*cos((2*i*M_PI)/M);
+			vert(1) = perfil_original[j](1);
+			vert(2) = perfil_original[j](0)*sin((2*i*M_PI)/M);
 
-			triangulos.push_back({a, b, b+1});
-			triangulos.push_back({a, b+1, a+1});
+			vertices.push_back(vert);
 		}
 	}
+
+	// Se calculan los triángulos
+	for(int i=0; i<num_instancias_perf; i++)
+	{
+		for(int j=0; j<M-1; j++)
+		{
+			a = M*i+j;
+			b = M*((i+1)%num_instancias_perf)+j;
+
+			triangulos.push_back({a, b+1, b});
+			triangulos.push_back({a, a+1, b+1});
+		}
+	}
+
+	// Se calculan los polos si se quieren las tapas
+
+	if(tapa_inf)
+	{
+		// Polo sur
+		vert(0) = 0;
+		vert(1) = vertices[0](1);
+		vert(2) = 0;
+		vertices.push_back(vert);
+		indice_tapa_inf = (int)vertices.size()-1;
+	}
+
+	if(tapa_sup)
+	{
+		// Polo norte
+		vert(0) = 0;
+		vert(1) = vertices[vertices.size()-2](1);
+		vert(2) = 0;
+		vertices.push_back(vert);
+		indice_tapa_sup = (int)vertices.size()-1;
+	}
+
+	if(tapa_inf)
+	{
+		// Se calculan las tapas: tapa inferior
+		for(int i=0; i<num_instancias_perf; i++)
+		{
+			// Posición de los vértices que forman parte del triángulo
+			a = (M*i)%(M*num_instancias_perf);
+			b = (M*i+M)%(M*num_instancias_perf);
+
+			// Se introduce el triángulo
+			triangulos.push_back({a, b, indice_tapa_inf});
+		}
+	}
+
+	if(tapa_sup)
+	{
+		// Tapa superior
+		for(int i=0; i<num_instancias_perf; i++)
+		{
+			// Posición de los vértices que forman parte del triángulo
+			a = (M*i+M-1)%(M*num_instancias_perf);
+			b = (M*i+M-1+M)%(M*num_instancias_perf);
+
+			// Se introduce el triángulo
+			triangulos.push_back({indice_tapa_sup, b, a});
+		}
+	}	
 }
 
+// *****************************************************************************
+//
+// Clase Cilindro
+//
+// *****************************************************************************
 
+Cilindro::Cilindro(const int num_vert_perfil, const int num_instancias_perf)
+{
+	std::vector<Tupla3f> perfil;
+	Tupla3f tupla;
 
+	// Inicializamos la coordenada 'y' a 0 para que comience en el origen
+	tupla(1) = 0.0-(1.0/num_vert_perfil);
 
+	// Vértices del perfil inicial
+	for(int i=0; i<=num_vert_perfil; i++)
+	{
+		tupla(0) = 1;
+		tupla(1) += (1.0/num_vert_perfil);
+		std::cout << "tupsjd" << tupla(1) << std::endl;
+		tupla(2) = 0;
 
+		perfil.push_back(tupla);
+	}
 
+	// Se crea el cilindro
+	crearMalla(perfil, num_instancias_perf, true, true);
+}
 
+// *****************************************************************************
+//
+// Clase Cono
+//
+// *****************************************************************************
 
+Cono::Cono(const int num_vert_perfil, const int num_instancias_perf)
+{
+	std::vector<Tupla3f> perfil;
+	Tupla3f tupla;
 
+	// Inicializamos las coordenadas 'x' e 'y'
+	tupla(0) = 1.0+(1.0/num_vert_perfil);
+	tupla(1) = 0.0-(1.0/num_vert_perfil);
 
+	// Vértices del perfil inicial
+	for(int i=0; i<=num_vert_perfil; i++)
+	{
+		tupla(0) -= (1.0/num_vert_perfil);
+		tupla(1) += (1.0/num_vert_perfil);
+		tupla(2) = 0;
 
+		perfil.push_back(tupla);
+	}
 
+	// Se crea el cono
+	crearMalla(perfil, num_instancias_perf, false, true);
+}
 
+// *****************************************************************************
+//
+// Clase Esfera
+//
+// *****************************************************************************
 
+Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf)
+{
+	std::vector<Tupla3f> perfil;
+	Tupla3f tupla;
 
+	// Inicializamos las coordenadas 'x' e 'y'
+	tupla(1) = -1.0-(1.0/num_vert_perfil);
 
+	// Vértices del perfil inicial
+	for(int i=0; i<=2*num_vert_perfil; i++)
+	{
+		tupla(1) += (1.0/num_vert_perfil);
+		tupla(0) = sqrt(1.0-pow(tupla(1),2));
+		tupla(2) = 0;
+
+		perfil.push_back(tupla);
+	}
+
+	// Se crea la esfera
+	crearMalla(perfil, num_instancias_perf, false, false);
+}

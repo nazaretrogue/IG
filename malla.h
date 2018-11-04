@@ -99,11 +99,39 @@ class ObjPLY : public ObjMallaIndexada
 class ObjRevolucion : public ObjMallaIndexada
 {
 	public:
-		ObjRevolucion( const std::string & nombre_ply_perfil );
+		ObjRevolucion();
+		ObjRevolucion(const std::string & nombre_ply_perfil, bool tapa_sup, bool tapa_inf);
 
 	protected:
-		void crearMalla(const std::vector<Tupla3f> &perfil_original, const int num_instancias_perf);
-
+		void crearMalla(const std::vector<Tupla3f> &perfil_original, const int num_instancias_perf, bool tapa_sup, bool tapa_inf);
 } ;
+
+/******************************************************************************/
+// Cilindro
+
+class Cilindro : public ObjRevolucion
+{
+	public:
+		Cilindro(const int num_vert_perfil, const int num_instancias_perf);
+};
+
+/******************************************************************************/
+// Cono
+
+class Cono : public ObjRevolucion
+{
+	public:
+		Cono(const int num_vert_perfil, const int num_instancias_perf);
+};
+
+/******************************************************************************/
+// Esfera
+
+class Esfera : public ObjRevolucion
+{
+	public:
+		Esfera(const int num_vert_perfil, const int num_instancias_perf);
+};
+
 
 #endif
