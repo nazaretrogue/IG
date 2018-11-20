@@ -49,6 +49,9 @@ class ObjMallaIndexada
 	std::vector<Tupla3f> vertices ;   // tabla de coordenadas de vértices (una tupla por vértice, con tres floats)
 	std::vector<Tupla3i> triangulos ; // una terna de 3 enteros por cada cara o triángulo
 
+	std::vector<Tupla3f> n_caras; // vector para las normales de las caras
+	std::vector<Tupla3f> n_vertices; // vector para las normales de los vértices
+
 	// completar: tabla de colores, tabla de normales de vértices
 
 	private:

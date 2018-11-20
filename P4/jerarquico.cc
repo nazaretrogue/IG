@@ -17,15 +17,15 @@
 
 ObjJerarquico::ObjJerarquico()
 {
-	objparam = new GrafoParam();
+   objparam = new GrafoParam();
 
-	// inicializar el valor no acotado de cada parámetro a 0, e
-	// iniciaizar asimismo su valor efectivo.
-	for( unsigned i = 0; i < objparam->numParametros(); i++ )
-	{
-		valores_na.push_back( 0.0 );
-		objparam->actualizarValorEfe( i, valores_na[i] );
-	}
+   // inicializar el valor no acotado de cada parámetro a 0, e
+   // iniciaizar asimismo su valor efectivo.
+   for( unsigned i = 0 ; i < objparam->numParametros() ; i++ )
+   {
+      valores_na.push_back( 0.0 );
+      objparam->actualizarValorEfe( i, valores_na[i] ) ;
+   }
 }
 
 // -----------------------------------------------------------------------------
@@ -34,8 +34,8 @@ ObjJerarquico::ObjJerarquico()
 
 void ObjJerarquico::draw( const int modo_vis, const bool usar_diferido )
 {
-	assert( objparam != nullptr );
-	objparam->draw( modo_vis, usar_diferido );
+   assert( objparam != nullptr );
+   objparam->draw( modo_vis, usar_diferido );
 }
 
 
@@ -45,12 +45,12 @@ void ObjJerarquico::draw( const int modo_vis, const bool usar_diferido )
 
 void ObjJerarquico::incrementaParamAct()
 {
-	using namespace std;
-	assert( objparam != nullptr );
-	assert( i_param_act < objparam->numParametros() );
+   using namespace std ;
+   assert( objparam != nullptr );
+   assert( i_param_act < objparam->numParametros() );
 
-	valores_na[i_param_act] += delta_valores_na / 20.0;
-	objparam->actualizarValorEfe( i_param_act, valores_na[i_param_act] );
+   valores_na[i_param_act] += delta_valores_na/20.0 ;
+   objparam->actualizarValorEfe( i_param_act, valores_na[i_param_act] );
 }
 
 // -----------------------------------------------------------------------------
@@ -58,12 +58,12 @@ void ObjJerarquico::incrementaParamAct()
 
 void ObjJerarquico::decrementaParamAct()
 {
-	using namespace std;
-	assert( objparam != nullptr );
-	assert( i_param_act < objparam->numParametros() );
+   using namespace std ;
+   assert( objparam != nullptr );
+   assert( i_param_act < objparam->numParametros() );
 
-	valores_na[i_param_act] -= delta_valores_na / 20.0;
-	objparam->actualizarValorEfe( i_param_act, valores_na[i_param_act] );
+   valores_na[i_param_act] -= delta_valores_na/20.0 ;
+   objparam->actualizarValorEfe( i_param_act, valores_na[i_param_act] );
 }
 
 // -----------------------------------------------------------------------------
@@ -71,12 +71,12 @@ void ObjJerarquico::decrementaParamAct()
 
 void ObjJerarquico::siguienteParametro()
 {
-	using namespace std;
-	assert( objparam != nullptr );
-	assert( i_param_act < objparam->numParametros() );
+   using namespace std ;
+   assert( objparam != nullptr );
+   assert( i_param_act < objparam->numParametros() );
 
-	i_param_act = (i_param_act + 1) % objparam->numParametros();
-	cout << "Indice del grado de libertad actual ahora es: " << i_param_act << endl;
+   i_param_act = (i_param_act+1) % objparam->numParametros();
+   cout << "Indice del grado de libertad actual ahora es: " << i_param_act << endl ;
 }
 
 // -----------------------------------------------------------------------------
@@ -85,9 +85,9 @@ void ObjJerarquico::siguienteParametro()
 
 void ObjJerarquico::acelerar()
 {
-	using namespace std;
-	delta_valores_na += 0.2;
-	cout << "Acelerado, delta == " << delta_valores_na << endl;
+   using namespace std ;
+   delta_valores_na += 0.2 ;
+   cout << "Acelerado, delta == " << delta_valores_na << endl ;
 }
 
 // -----------------------------------------------------------------------------
@@ -96,9 +96,9 @@ void ObjJerarquico::acelerar()
 
 void ObjJerarquico::decelerar()
 {
-	using namespace std;
-	delta_valores_na = std::max( delta_valores_na - 0.2, 0.2 );
-	cout << "Decelerado, delta == " << delta_valores_na << endl;
+   using namespace std ;
+   delta_valores_na = std::max( delta_valores_na-0.2, 0.2 ) ;
+   cout << "Decelerado, delta == " << delta_valores_na << endl ;
 }
 
 // -----------------------------------------------------------------------------
@@ -111,8 +111,8 @@ void ObjJerarquico::decelerar()
 
 void ObjJerarquico::inicioAnimaciones()
 {
-	using namespace std::chrono;
-	ultima_actu = steady_clock::now();
+   using namespace std::chrono ;
+   ultima_actu = steady_clock::now() ;
 }
 
 // -----------------------------------------------------------------------------
@@ -126,29 +126,29 @@ void ObjJerarquico::inicioAnimaciones()
 
 void ObjJerarquico::actualizarEstado()
 {
-	using namespace std;
-	using namespace std::chrono;
-	assert( objparam != nullptr );
+   using namespace std ;
+   using namespace std::chrono ;
+   assert( objparam != nullptr );
 
-	//cout << "Entra: ObjJerarquico::actualizarEstado" << endl ;
+   //cout << "Entra: ObjJerarquico::actualizarEstado" << endl ;
 
-	// calcular el tiempo transcurrido desde la ultima actualización o
-	// desde que se invocó a 'inicio_animaciones' (delta_t_s)
+   // calcular el tiempo transcurrido desde la ultima actualización o
+   // desde que se invocó a 'inicio_animaciones' (delta_t_s)
 
-	const Instante ahora      = steady_clock::now();
-	const Duracion_s duracion_s = ahora - ultima_actu;
-	const float delta_t_s  = duracion_s.count();
+   const Instante   ahora      = steady_clock::now() ;
+   const Duracion_s duracion_s = ahora - ultima_actu ;
+   const float      delta_t_s  = duracion_s.count();
 
-	//cout << "    Delta_t_s == " << delta_t_s << endl ;
+   //cout << "    Delta_t_s == " << delta_t_s << endl ;
 
-	// actualizar instante de la última actualización de estado
-	ultima_actu = ahora;
+   // actualizar instante de la última actualización de estado
+   ultima_actu = ahora ;
 
-	// incrementar los valores lineales, y en el objparam, actualizar los valores efectivos
+   // incrementar los valores lineales, y en el objparam, actualizar los valores efectivos
 
-	for( unsigned i = 0; i < num_parametros; i++ )
-	{
-		valores_na[i] += delta_t_s * delta_valores_na;
-		objparam->actualizarValorEfe( i, valores_na[i] );
-	}
+   for( unsigned i = 0 ; i < num_parametros ; i++ )
+   {
+      valores_na[i] += delta_t_s*delta_valores_na ;
+      objparam->actualizarValorEfe( i, valores_na[i] );
+   }
 }

@@ -133,7 +133,34 @@ void ObjMallaIndexada::draw(int mode, bool dibujo)
 
 void ObjMallaIndexada::calcular_normales()
 {
-   // completar .....(práctica 2)
+	Tupla3f vect1, vect2, tmp;
+	int j=0;
+
+	for(int i=0; i<caras.size(); i++)
+	{
+		vect1 = caras[i](0) - caras[i](1);
+		vect2 = caras[i](1) - caras[i](2);
+
+		tmp = prod_vect(vect1, vect2);
+
+		float mod = sqrt(pow(tmp.x, 2) + pow(tmp.y, 2) + pow(tmp.z, 2));
+		n_caras[i] = tmp/mod;
+
+		n_vertices[caras[i](0)] += n_caras[i];
+		n_vertices[caras[i](1)] += n_caras[i];
+		n_vertices[caras[i](2)] += n_caras[i];
+	}
+}
+
+Tuplas3f prod_vect(Tupla3f v1, Tupla3f v2)
+{
+	Tupla3f res;
+
+	res.x = v1.x * v2.x;
+	res.y = v1.y * v2.y;
+	res.z = v1.z * v2.z;
+
+	return res;
 }
 
 // *****************************************************************************
