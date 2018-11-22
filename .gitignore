@@ -32,6 +32,7 @@ P4/*.o
 P4/*.exe
 *.out
 *.app
+pracs_exe
 
 # Archivos comprimidos
 *.zip
