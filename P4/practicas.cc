@@ -139,7 +139,7 @@ int main( int argc, char **argv )
    glutInitWindowSize(UI_window_width,UI_window_height);
 
    // llamada para crear la ventana, indicando el titulo
-   glutCreateWindow("Practicas IG: NAZARET ROMÁN GUERRERO");
+   glutCreateWindow("Practicas IG: NAZARET ROMAN GUERRERO");
 
    // asignación de la funcion llamada "dibujar" al evento de dibujo
    glutDisplayFunc( draw_scene );

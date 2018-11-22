@@ -21,11 +21,17 @@ ObjMallaIndexada::ObjMallaIndexada()
 void ObjMallaIndexada::draw_ModoInmediato(int mode)
 {
  	glEnableClientState(GL_VERTEX_ARRAY); // Activar array vértices
+	glEnableClientState(GL_NORMAL_ARRAY);
 
 	if(mode != 3)
 	{
+		if(n_vertices.size() == 0)
+			calcularNormales();
+
 		// Se activan los vértices
 		glVertexPointer(3, GL_FLOAT, 0, vertices.data());
+		glNormalPointer(GL_FLOAT, 0, n_vertices.data());
+		habilitarLuz();
 
 		glDrawElements(GL_TRIANGLES, 3*triangulos.size(), GL_UNSIGNED_INT, triangulos.data());
 	}
@@ -33,6 +39,7 @@ void ObjMallaIndexada::draw_ModoInmediato(int mode)
 	else
 		pintarAjedrez();
 
+	glEnableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY); // Desactivar array vértices
 }
 // -----------------------------------------------------------------------------
@@ -131,36 +138,28 @@ void ObjMallaIndexada::draw(int mode, bool dibujo)
 // -----------------------------------------------------------------------------
 // Recalcula la tabla de normales de vértices (el contenido anterior se pierde)
 
-void ObjMallaIndexada::calcular_normales()
+void ObjMallaIndexada::calcularNormales()
 {
 	Tupla3f vect1, vect2, tmp;
-	int j=0;
+	Tupla3f tupla_0 = {0, 0, 0};
 
-	for(int i=0; i<caras.size(); i++)
+	n_caras.assign(triangulos.size(), tupla_0);
+	n_vertices.assign(3*triangulos.size(), tupla_0);
+
+	for(int i=0; i<triangulos.size(); i++)
 	{
-		vect1 = caras[i](0) - caras[i](1);
-		vect2 = caras[i](1) - caras[i](2);
+		vect1 = vertices[triangulos[i](0)] - vertices[triangulos[i](1)];
+		vect2 = vertices[triangulos[i](1)] - vertices[triangulos[i](2)];
 
-		tmp = prod_vect(vect1, vect2);
+		tmp = vect1.cross(vect2);
 
-		float mod = sqrt(pow(tmp.x, 2) + pow(tmp.y, 2) + pow(tmp.z, 2));
+		float mod = sqrt(pow(tmp(0), 2) + pow(tmp(1), 2) + pow(tmp(2), 2));
 		n_caras[i] = tmp/mod;
 
-		n_vertices[caras[i](0)] += n_caras[i];
-		n_vertices[caras[i](1)] += n_caras[i];
-		n_vertices[caras[i](2)] += n_caras[i];
+		n_vertices[triangulos[i](0)] = n_vertices[triangulos[i](0)] + n_caras[i];
+		n_vertices[triangulos[i](1)] = n_vertices[triangulos[i](1)] + n_caras[i];
+		n_vertices[triangulos[i](2)] = n_vertices[triangulos[i](2)] + n_caras[i];
 	}
-}
-
-Tuplas3f prod_vect(Tupla3f v1, Tupla3f v2)
-{
-	Tupla3f res;
-
-	res.x = v1.x * v2.x;
-	res.y = v1.y * v2.y;
-	res.z = v1.z * v2.z;
-
-	return res;
 }
 
 // *****************************************************************************
@@ -415,4 +414,41 @@ Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf)
 
 	// Se crea la esfera
 	crearMalla(perfil, num_instancias_perf, false, false);
+}
+
+//***************************************************************************
+// Función para la luz 0
+//***************************************************************************
+
+void ObjMallaIndexada::habilitarLuz()
+{
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luz_ambiente);
+
+
+
+	glLightfv(GL_LIGHT1, GL_AMBIENT, luz_ambiente);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, luz_difusa);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, luz_espec);
+	glLightfv(GL_LIGHT1, GL_POSITION, pos);
+
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, material);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brillo);
+
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_SMOOTH);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT1);
+	glShadeModel(GL_SMOOTH);
+
+
+
+	/*glEnable(GL_NORMALIZE);
+	glEnable(GL_SMOOTH);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glShadeModel(GL_SMOOTH);*/
+
+	//glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
 }
