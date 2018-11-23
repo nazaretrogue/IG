@@ -174,7 +174,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
 	case 'M':
 	case 'm':
 		// cambiar de modo de visualización
-		modo = (modo + 1) % 4;
+		modo = (modo + 1) % 5;
 		break;
 	case 'V':
 	case 'v':

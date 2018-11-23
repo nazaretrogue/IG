@@ -11,6 +11,7 @@
 #define OBJETOS_H_INCLUDED
 
 #include "aux.h"
+#include "luces.h"
 
 // *****************************************************************************
 //
@@ -34,6 +35,9 @@ class ObjMallaIndexada
 	// dibuja el objeto en modo ajedrez
 	void pintarAjedrez();
 
+	// dibuja con iluminacion
+	void drawLuces();
+
 	// función que redibuja el objeto
 	// está función llama a 'draw_MI' (modo inmediato)
 	// o bien a 'draw_MD' (modo diferido, VBOs)
@@ -55,12 +59,11 @@ class ObjMallaIndexada
 	std::vector<Tupla3f> n_caras; // vector para las normales de las caras
 	std::vector<Tupla3f> n_vertices; // vector para las normales de los vértices
 
-	GLfloat luz_ambiente[4] = {0.2, 0.0, 0.2, 1.0};
-	GLfloat luz_espec[4] = {1.0, 0.0, 1.0, 1.0};
-	GLfloat luz_difusa[4] = {0.2, 0.0, 0.2, 1.0};
-	GLfloat pos[4] = {0.0, 0.0, 1.0, 0.0};
+	Luces luz;
 
-	GLfloat material[4] = {1.0, 1.0, 1.0, 1.0};
+	GLfloat mb[4] = {0.0, 0.0, 1.0, 1.0}; // material azul, para ambiente
+	GLfloat mg[4] = {0.2, 0.8, 0.2, 1.0}; // material verde oscuro, para difuso
+	GLfloat mw[4] = {0.5, 0.5, 0.5, 1.0}; // material blanco, para especular
 	float brillo = 0.5;
 
 	private:

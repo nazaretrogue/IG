@@ -21,25 +21,26 @@ ObjMallaIndexada::ObjMallaIndexada()
 void ObjMallaIndexada::draw_ModoInmediato(int mode)
 {
  	glEnableClientState(GL_VERTEX_ARRAY); // Activar array vértices
-	glEnableClientState(GL_NORMAL_ARRAY);
 
-	if(mode != 3)
+	if(mode < 3)
 	{
-		if(n_vertices.size() == 0)
-			calcularNormales();
-
-		// Se activan los vértices
 		glVertexPointer(3, GL_FLOAT, 0, vertices.data());
-		glNormalPointer(GL_FLOAT, 0, n_vertices.data());
-		habilitarLuz();
 
 		glDrawElements(GL_TRIANGLES, 3*triangulos.size(), GL_UNSIGNED_INT, triangulos.data());
 	}
 
-	else
+	else if(mode == 3)
 		pintarAjedrez();
 
-	glEnableClientState(GL_NORMAL_ARRAY);
+	else
+	{
+		glEnableClientState(GL_NORMAL_ARRAY);
+
+		drawLuces();
+
+		glEnableClientState(GL_NORMAL_ARRAY);
+	}
+
 	glDisableClientState(GL_VERTEX_ARRAY); // Desactivar array vértices
 }
 // -----------------------------------------------------------------------------
@@ -116,6 +117,27 @@ void ObjMallaIndexada::pintarAjedrez()
 
 	glColor3ub(255, 0, 255);
 	glDrawElements(GL_TRIANGLES, 3*caras_impares.size(), GL_UNSIGNED_INT, caras_impares.data());
+}
+
+// -----------------------------------------------------------------------------
+// Función de visualización con Luces
+
+void ObjMallaIndexada::drawLuces()
+{
+	if(n_vertices.size() == 0)
+		calcularNormales();
+
+	glVertexPointer(3, GL_FLOAT, 0, vertices.data());
+	glNormalPointer(GL_FLOAT, 0, n_vertices.data());
+
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mw);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mb);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mg);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brillo);
+
+	luz.drawLights();
+
+	glDrawElements(GL_TRIANGLES, 3*triangulos.size(), GL_UNSIGNED_INT, triangulos.data());
 }
 
 // -----------------------------------------------------------------------------
@@ -414,41 +436,4 @@ Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf)
 
 	// Se crea la esfera
 	crearMalla(perfil, num_instancias_perf, false, false);
-}
-
-//***************************************************************************
-// Función para la luz 0
-//***************************************************************************
-
-void ObjMallaIndexada::habilitarLuz()
-{
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luz_ambiente);
-
-
-
-	glLightfv(GL_LIGHT1, GL_AMBIENT, luz_ambiente);
-	glLightfv(GL_LIGHT1, GL_DIFFUSE, luz_difusa);
-	glLightfv(GL_LIGHT1, GL_SPECULAR, luz_espec);
-	glLightfv(GL_LIGHT1, GL_POSITION, pos);
-
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, material);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material);
-	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brillo);
-
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_SMOOTH);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT1);
-	glShadeModel(GL_SMOOTH);
-
-
-
-	/*glEnable(GL_NORMALIZE);
-	glEnable(GL_SMOOTH);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glShadeModel(GL_SMOOTH);*/
-
-	//glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
 }
