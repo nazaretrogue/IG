@@ -14,6 +14,7 @@ class Luces
         void drawLights();
         void habilitarLuz();
         void luzBlanca();
+        void actualizarValorEfe(const float valor_na);
 
     private:
 
@@ -22,4 +23,6 @@ class Luces
     	GLfloat luz_difusa[4] = {1.0, 0.0, 1.0, 1.0};
     	GLfloat pos[4] = {0.0, 1.0, 1.0, 1.0};
         GLfloat dir[4] = {0.0, 0.0, 1.0, 0.0};
+
+        float giro_x, giro_y, giro_z;
 };

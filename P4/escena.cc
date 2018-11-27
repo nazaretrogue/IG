@@ -174,7 +174,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
 	case 'M':
 	case 'm':
 		// cambiar de modo de visualización
-		modo = (modo + 1) % 5;
+		modo = (modo + 1) % 6;
 		break;
 	case 'V':
 	case 'v':
@@ -296,10 +296,10 @@ void Escena::mgeDesocupado()
 
 void Escena::conmutarAnimaciones()
 {
-	if(objeto_actual != 7)
+	if(objeto_actual != 7 || !glIsEnabled(GL_LIGHTING))
 		std::cout << "Error en las animaciones: no es un objeto jerárquico" << std::endl;
 
-	else
+	else if(objeto_actual == 7)
 	{
 		animaciones = !animaciones;
 

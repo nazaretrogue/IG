@@ -43,6 +43,7 @@ class Escena
 	Cono *cono = nullptr;
 	Esfera *esfera = nullptr;
 	ObjJerarquico *objjer = nullptr;
+	bool hay_luces = false;
 
 	public:
 

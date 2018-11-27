@@ -36,7 +36,8 @@ class ObjMallaIndexada
 	void pintarAjedrez();
 
 	// dibuja con iluminacion
-	void drawLuces();
+	void drawLucesFlat();
+	void drawLucesSmooth();
 
 	// función que redibuja el objeto
 	// está función llama a 'draw_MI' (modo inmediato)
@@ -146,6 +147,7 @@ class Esfera : public ObjRevolucion
 {
 	public:
 		Esfera(const int num_vert_perfil, const int num_instancias_perf);
+		void calcularNormales();
 };
 
 

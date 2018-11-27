@@ -36,7 +36,11 @@ void ObjMallaIndexada::draw_ModoInmediato(int mode)
 	{
 		glEnableClientState(GL_NORMAL_ARRAY);
 
-		drawLuces();
+		if (mode == 4)
+			drawLucesFlat();
+
+		else
+			drawLucesSmooth();
 
 		glEnableClientState(GL_NORMAL_ARRAY);
 	}
@@ -120,12 +124,39 @@ void ObjMallaIndexada::pintarAjedrez()
 }
 
 // -----------------------------------------------------------------------------
-// Función de visualización con Luces
+// Función de visualización con Luces flat
 
-void ObjMallaIndexada::drawLuces()
+void ObjMallaIndexada::drawLucesFlat()
 {
 	if(n_vertices.size() == 0)
 		calcularNormales();
+
+	glEnable(GL_FLAT);
+	glShadeModel(GL_FLAT);
+
+	glVertexPointer(3, GL_FLOAT, 0, vertices.data());
+	glNormalPointer(GL_FLOAT, 0, n_vertices.data());
+
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mw);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mb);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mg);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brillo);
+
+	luz.drawLights();
+
+	glDrawElements(GL_TRIANGLES, 3*triangulos.size(), GL_UNSIGNED_INT, triangulos.data());
+}
+
+// -----------------------------------------------------------------------------
+// Función de visualización con Luces smooth
+
+void ObjMallaIndexada::drawLucesSmooth()
+{
+	if(n_vertices.size() == 0)
+		calcularNormales();
+
+	glEnable(GL_SMOOTH);
+	glShadeModel(GL_SMOOTH);
 
 	glVertexPointer(3, GL_FLOAT, 0, vertices.data());
 	glNormalPointer(GL_FLOAT, 0, n_vertices.data());
@@ -436,4 +467,28 @@ Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf)
 
 	// Se crea la esfera
 	crearMalla(perfil, num_instancias_perf, false, false);
+}
+
+// Calculo de las normales para la esfera
+
+void Esfera::calcularNormales()
+{
+	Tupla3f vect1, vect2, tmp;
+	Tupla3f tupla_0 = {0, 0, 0};
+
+	n_caras.assign(triangulos.size(), tupla_0);
+	n_vertices.assign(3*triangulos.size(), tupla_0);
+
+	for(int i=0; i<triangulos.size(); i++)
+	{
+		vect1 = vertices[triangulos[i](0)] - vertices[triangulos[i](1)];
+		vect2 = vertices[triangulos[i](1)] - vertices[triangulos[i](2)];
+
+		tmp = vect1.cross(vect2);
+
+		float mod = sqrt(pow(tmp(0), 2) + pow(tmp(1), 2) + pow(tmp(2), 2));
+		n_caras[i] = tmp/mod;
+
+		n_vertices[i] = tupla_0 - vertices[i];
+	}
 }
