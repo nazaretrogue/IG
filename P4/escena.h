@@ -30,8 +30,6 @@ class Escena
 		num_objetos   = 0 , 	// número de objetos (actualizado al crear los objetos en el constructor)
 		modo = 0;		   		// modo de visualización del objeto: puntos, líneas o relleno
 
-	float giro_luz = 0.0;
-
 	bool inmediato = true,		// modo de dibujo, inmediato o diferido
 		 animaciones = false;	// true si las animaciones están activadas
 
@@ -45,7 +43,9 @@ class Escena
 	Cono *cono = nullptr;
 	Esfera *esfera = nullptr;
 	ObjJerarquico *objjer = nullptr;
-	bool hay_luces = false;
+
+	Luces luz;
+	int giro_luz = 0;
 
 	public:
 

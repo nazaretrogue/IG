@@ -62,21 +62,22 @@ void Escena::dibujar_objeto_actual()
 
 	switch(modo)
 	{
-	case 0:
-		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-		break;
-
-	case 1:
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		break;
-
-	case 2:
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		break;
-
-	case 3:
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		break;
+		case 0:
+			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+			break;
+		case 1:
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			break;
+		case 2:
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			break;
+		case 3:
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			break;
+		case 4:
+		case 5:
+			luz.drawLights(giro_luz);
+			break;
 	}
 
 	// (2) dibujar el objeto actual usando método 'draw' del objeto asociado al
@@ -85,7 +86,7 @@ void Escena::dibujar_objeto_actual()
 	switch( objeto_actual )
 	{
 	case 0:
-		if ( cubo != nullptr )
+		if (cubo != nullptr)
 			cubo->draw(modo, inmediato);
 		break;
 
@@ -191,21 +192,25 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
 		// cambiar entre animaciones sí o no
 		conmutarAnimaciones();
 		break;
-	case ('Z'):
+	case 'Z':
 		// incrementa el valor del parámetro actual si hay animaciones
 		objjer->incrementaParamAct();
 		break;
-	case ('z'):
+	case 'z':
 		// decrementa el valor del parámetro actual si hay animaciones
 		objjer->decrementaParamAct();
 		break;
-	case ('>'):
+	case '>':
 		// incrementa el parámetro usado en las animaciones
 		objjer->acelerar();
 		break;
-	case ('<'):
+	case '<':
 		// decrementa el parámetro usado en las animaciones
 		objjer->decelerar();
+		break;
+	case 'l':
+	case 'L':
+		giro_luz = (giro_luz + 15)%360;
 		break;
 	}
 	return false;

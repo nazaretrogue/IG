@@ -42,7 +42,7 @@ void ObjMallaIndexada::draw_ModoInmediato(int mode)
 		else
 			drawLucesSmooth();
 
-		glEnableClientState(GL_NORMAL_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
 	}
 
 	glDisableClientState(GL_VERTEX_ARRAY); // Desactivar array vértices
@@ -133,6 +133,10 @@ void ObjMallaIndexada::drawLucesFlat()
 
 	glEnable(GL_FLAT);
 	glShadeModel(GL_FLAT);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
 
 	glVertexPointer(3, GL_FLOAT, 0, vertices.data());
 	glNormalPointer(GL_FLOAT, 0, n_vertices.data());
@@ -141,8 +145,6 @@ void ObjMallaIndexada::drawLucesFlat()
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mb);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mg);
 	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brillo);
-
-	luz.drawLights(15.0);
 
 	glDrawElements(GL_TRIANGLES, 3*triangulos.size(), GL_UNSIGNED_INT, triangulos.data());
 
@@ -161,6 +163,10 @@ void ObjMallaIndexada::drawLucesSmooth()
 
 	glEnable(GL_SMOOTH);
 	glShadeModel(GL_SMOOTH);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
 
 	glVertexPointer(3, GL_FLOAT, 0, vertices.data());
 	glNormalPointer(GL_FLOAT, 0, n_vertices.data());
@@ -169,10 +175,6 @@ void ObjMallaIndexada::drawLucesSmooth()
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mb);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mg);
 	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brillo);
-
-	giro_luz += 15.0;
-
-	luz.drawLights(giro_luz);
 
 	glDrawElements(GL_TRIANGLES, 3*triangulos.size(), GL_UNSIGNED_INT, triangulos.data());
 
