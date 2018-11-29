@@ -60,6 +60,7 @@ class ObjMallaIndexada
 	std::vector<Tupla3f> n_vertices; // vector para las normales de los vértices
 
 	Luces luz;
+	float giro_luz = 0.0;
 
 	GLfloat mb[4] = {0.2, 0.8, 0.2, 1.0}; // material verde, para ambiente
 	GLfloat mg[4] = {0.4, 0.8, 1.0, 1.0}; // material azul, para difuso

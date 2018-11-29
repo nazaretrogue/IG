@@ -296,10 +296,10 @@ void Escena::mgeDesocupado()
 
 void Escena::conmutarAnimaciones()
 {
-	if(objeto_actual != 7 || !glIsEnabled(GL_LIGHTING))
+	if(objeto_actual != 7)
 		std::cout << "Error en las animaciones: no es un objeto jerárquico" << std::endl;
 
-	else if(objeto_actual == 7)
+	else
 	{
 		animaciones = !animaciones;
 

@@ -142,7 +142,7 @@ void ObjMallaIndexada::drawLucesFlat()
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mg);
 	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brillo);
 
-	luz.drawLights();
+	luz.drawLights(15.0);
 
 	glDrawElements(GL_TRIANGLES, 3*triangulos.size(), GL_UNSIGNED_INT, triangulos.data());
 
@@ -170,7 +170,9 @@ void ObjMallaIndexada::drawLucesSmooth()
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mg);
 	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brillo);
 
-	luz.drawLights();
+	giro_luz += 15.0;
+
+	luz.drawLights(giro_luz);
 
 	glDrawElements(GL_TRIANGLES, 3*triangulos.size(), GL_UNSIGNED_INT, triangulos.data());
 

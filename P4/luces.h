@@ -11,7 +11,7 @@ class Luces
     public:
 
         Luces();
-        void drawLights();
+        void drawLights(float giro_x);
         void luzMagenta();
         void luzBlanca();
         void actualizarValorEfe(const float valor_na);
@@ -24,5 +24,6 @@ class Luces
     	GLfloat pos[4] = {0.0, 1.0, 1.0, 1.0};
         GLfloat dir[4] = {0.0, 0.0, 1.0, 0.0};
 
-        float giro_x, giro_y, giro_z;
+        /*float giro_x, giro_y:
+        float giro_z;*/
 };
