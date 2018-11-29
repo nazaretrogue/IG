@@ -16,11 +16,11 @@ void Luces::drawLights()
 	glPushMatrix();
 		glRotatef(giro_x, 1.0, 0.0, 0.0);
 		glRotatef(giro_y, 0.0, 1.0, 0.0);
-		habilitarLuz();
+		luzMagenta();
 	glPopMatrix();
 }
 
-void Luces::habilitarLuz()
+void Luces::luzMagenta()
 {
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luz_ambiente);
 

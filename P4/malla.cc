@@ -145,6 +145,10 @@ void ObjMallaIndexada::drawLucesFlat()
 	luz.drawLights();
 
 	glDrawElements(GL_TRIANGLES, 3*triangulos.size(), GL_UNSIGNED_INT, triangulos.data());
+
+	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHT0);
+	glDisable(GL_LIGHT1);
 }
 
 // -----------------------------------------------------------------------------
@@ -169,6 +173,10 @@ void ObjMallaIndexada::drawLucesSmooth()
 	luz.drawLights();
 
 	glDrawElements(GL_TRIANGLES, 3*triangulos.size(), GL_UNSIGNED_INT, triangulos.data());
+
+	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHT0);
+	glDisable(GL_LIGHT1);
 }
 
 // -----------------------------------------------------------------------------
@@ -489,6 +497,6 @@ void Esfera::calcularNormales()
 		float mod = sqrt(pow(tmp(0), 2) + pow(tmp(1), 2) + pow(tmp(2), 2));
 		n_caras[i] = tmp/mod;
 
-		n_vertices[i] = tupla_0 - vertices[i];
+		n_vertices[i] = vertices[i] - tupla_0;
 	}
 }

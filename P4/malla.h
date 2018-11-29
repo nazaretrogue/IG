@@ -50,7 +50,6 @@ class ObjMallaIndexada
 	protected:
 
 	void calcularNormales() ; // calcula tabla de normales de vértices (práctica 3)
-	void habilitarLuz();
 
 	// completar: tabla de colores, tabla de normales de vértices
 
@@ -62,10 +61,10 @@ class ObjMallaIndexada
 
 	Luces luz;
 
-	GLfloat mb[4] = {0.0, 0.0, 1.0, 1.0}; // material azul, para ambiente
-	GLfloat mg[4] = {0.2, 0.8, 0.2, 1.0}; // material verde oscuro, para difuso
-	GLfloat mw[4] = {0.5, 0.5, 0.5, 1.0}; // material blanco, para especular
-	float brillo = 0.5;
+	GLfloat mb[4] = {0.2, 0.8, 0.2, 1.0}; // material verde, para ambiente
+	GLfloat mg[4] = {0.4, 0.8, 1.0, 1.0}; // material azul, para difuso
+	GLfloat mw[4] = {1.0, 1.0, 1.0, 1.0}; // material blanco, para especularq
+	float brillo = 100.0;
 
 	private:
 
