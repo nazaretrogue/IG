@@ -80,6 +80,23 @@ void Escena::dibujar_objeto_actual()
 			break;
 	}
 
+	switch (material)
+	{
+		case 0:
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mw);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mb);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mg);
+			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brillo);
+			break;
+
+		case 1:
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mwh);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, my);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mm);
+			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brillo);
+			break;
+	}
+
 	// (2) dibujar el objeto actual usando método 'draw' del objeto asociado al
 	// valor entero en 'objeto_actual'
 
@@ -211,6 +228,10 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
 	case 'l':
 	case 'L':
 		giro_luz = (giro_luz + 15)%360;
+		break;
+	case 't':
+	case 'T':
+		material = (material+1)%2;
 		break;
 	}
 	return false;

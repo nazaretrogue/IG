@@ -138,15 +138,18 @@ void ObjMallaIndexada::drawLucesFlat()
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHT1);
 
-	glVertexPointer(3, GL_FLOAT, 0, vertices.data());
-	glNormalPointer(GL_FLOAT, 0, n_vertices.data());
+	glBegin(GL_TRIANGLES);
 
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mw);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mb);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mg);
-	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brillo);
+	for(int i=0; i<triangulos.size(); i++)
+	{
+		glNormal3fv(n_caras[i]);
 
-	glDrawElements(GL_TRIANGLES, 3*triangulos.size(), GL_UNSIGNED_INT, triangulos.data());
+		glVertex3fv(vertices[triangulos[i](0)]);
+		glVertex3fv(vertices[triangulos[i](1)]);
+		glVertex3fv(vertices[triangulos[i](2)]);
+	}
+
+	glEnd();
 
 	glDisable(GL_LIGHTING);
 	glDisable(GL_LIGHT0);
@@ -170,11 +173,6 @@ void ObjMallaIndexada::drawLucesSmooth()
 
 	glVertexPointer(3, GL_FLOAT, 0, vertices.data());
 	glNormalPointer(GL_FLOAT, 0, n_vertices.data());
-
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mw);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mb);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mg);
-	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brillo);
 
 	glDrawElements(GL_TRIANGLES, 3*triangulos.size(), GL_UNSIGNED_INT, triangulos.data());
 

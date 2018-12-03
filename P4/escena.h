@@ -46,6 +46,20 @@ class Escena
 
 	Luces luz;
 	int giro_luz = 0;
+	int material = 0;
+
+	// Material 1
+	GLfloat mb[4] = {0.2, 0.8, 0.2, 1.0}; // material verde, para ambiente
+	GLfloat mg[4] = {0.4, 0.8, 1.0, 1.0}; // material azul, para difuso
+	GLfloat mw[4] = {1.0, 1.0, 1.0, 1.0}; // material blanco, para especular
+
+	// Material 2
+	GLfloat my[4] = {0.8, 0.6, 0.0, 1.0}; // material amarillo, para ambiente
+	GLfloat mm[4] = {1.0, 1.0, 0.4, 1.0}; // material marrón, para difuso
+	GLfloat mwh[4] = {1.0, 1.0, 1.0, 1.0}; // material blanco, para especular
+
+	// Brillo
+	float brillo = 100.0;
 
 	public:
 
