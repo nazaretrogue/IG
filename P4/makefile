@@ -38,10 +38,10 @@ $(exe): $(units_o) makefile
 	$(compiler) -o $(exe)  $(units_o) $(ld_libs)
 
 %.o : %.cc
-	$(compiler) -c  $(cc_flags) $<
+	$(compiler) -c  $(cc_flags) $< -lpthread -lX11
 
 %.o : %.cpp
-	$(compiler) -c  $(cc_flags) $<
+	$(compiler) -c  $(cc_flags) $< -lpthread -lX11
 
 $(units_cc) : $(headers)
 	touch $(units_cc)

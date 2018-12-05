@@ -6,8 +6,6 @@ void Luces::drawLights(int giro)
 {
 	luzBlanca();
 
-	Textura t;
-
 	glPushMatrix();
 		glRotatef(giro, 0.0, 1.0, 0.0);
 		luzMagenta();

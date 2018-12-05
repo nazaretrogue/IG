@@ -27,8 +27,9 @@ Escena::Escena()
 	cono = new Cono(45, 20);
 	esfera = new Esfera(45, 20);
 	objjer = new ObjJerarquico();
+	cubo_textura = new Cubo();
 
-	num_objetos = 8; // se usa al pulsar la tecla 'O' (rotar objeto actual)
+	num_objetos = 9; // se usa al pulsar la tecla 'O' (rotar objeto actual)
 }
 
 //**************************************************************************
@@ -105,42 +106,48 @@ void Escena::dibujar_objeto_actual()
 	case 0:
 		if (cubo != nullptr)
 			cubo->draw(modo, inmediato);
-		break;
+			break;
 
 	case 1:
 		if(tetraedro != nullptr)
 			tetraedro->draw(modo, inmediato);
-		break;
+			break;
 
 	case 2:
 		if(objply != nullptr)
 			objply->draw(modo, inmediato);
-		break;
+			break;
 
 	case 3:
 		if(objrev != nullptr)
 			objrev->draw(modo, inmediato);
-		break;
+			break;
 
 	case 4:
 		if(cilindro != nullptr)
 			cilindro->draw(modo, inmediato);
-		break;
+			break;
 
 	case 5:
 		if(cono != nullptr)
 			cono->draw(modo, inmediato);
-		break;
+			break;
 
 	case 6:
 		if(esfera != nullptr)
 			esfera->draw(modo, inmediato);
-		break;
+			break;
 
 	case 7:
 		if(objjer != nullptr)
 			objjer->draw(modo, inmediato);
-		break;
+			break;
+
+	case 8:
+		if(cubo_textura != nullptr)
+			cubo_textura->draw(modo, inmediato);
+			tex.drawTexture();
+			break;
 
 	default:
 		cout << "draw_object: el número de objeto actual (" << objeto_actual << ") es incorrecto." << endl;

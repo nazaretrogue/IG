@@ -4,6 +4,7 @@
 #include "ejes.h"
 #include "malla.h"
 #include "jerarquico.h"
+#include "textura.h"
 
 class Escena
 {
@@ -60,6 +61,9 @@ class Escena
 
 	// Brillo
 	float brillo = 100.0;
+
+	Cubo *cubo_textura = nullptr;
+	Textura tex;
 
 	public:
 
