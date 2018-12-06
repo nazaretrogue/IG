@@ -4,9 +4,6 @@ Textura::Textura()
 {
     construirObjeto();
     calcularTexels();
-    //readImage();
-
-    std::cout << id_tex << std::endl;
 }
 
 void Textura::readImage()
@@ -26,13 +23,9 @@ void Textura::readImage()
             unsigned char *g = image.data(x, y, 0, 1);
             unsigned char *b = image.data(x, y, 0, 2);
 
-            // std::cout << *(image.data(x, y, 0, 0)) << std::endl;
-
             data.push_back(*r);
             data.push_back(*g);
             data.push_back(*b);
-
-            //std::cout << *r << "    " << *g << "    " << *b << std::endl;
         }
     }
 
