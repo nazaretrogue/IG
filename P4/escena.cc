@@ -27,7 +27,7 @@ Escena::Escena()
 	cono = new Cono(45, 20);
 	esfera = new Esfera(45, 20);
 	objjer = new ObjJerarquico();
-	cubo_textura = new Cubo();
+	tex = new Textura();
 
 	num_objetos = 9; // se usa al pulsar la tecla 'O' (rotar objeto actual)
 }
@@ -45,6 +45,8 @@ void Escena::inicializar( int UI_window_width, int UI_window_height )
 	glEnable( GL_DEPTH_TEST ); // se habilita el z-bufer
 
 	redimensionar( UI_window_width, UI_window_height );
+
+	tex->readImage();
 }
 
 // **************************************************************************
@@ -144,9 +146,11 @@ void Escena::dibujar_objeto_actual()
 			break;
 
 	case 8:
-		if(cubo_textura != nullptr)
-			cubo_textura->draw(modo, inmediato);
-			tex.drawTexture();
+		if(tex != nullptr)
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			tex->drawTexture();
+		}
 			break;
 
 	default:

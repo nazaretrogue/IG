@@ -62,8 +62,7 @@ class Escena
 	// Brillo
 	float brillo = 100.0;
 
-	Cubo *cubo_textura = nullptr;
-	Textura tex;
+	Textura *tex = nullptr;
 
 	public:
 
