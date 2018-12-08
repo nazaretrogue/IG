@@ -28,8 +28,9 @@ Escena::Escena()
 	esfera = new Esfera(45, 20);
 	objjer = new ObjJerarquico();
 	tex = new Textura();
+	cuadro = new Cuadro();
 
-	num_objetos = 9; // se usa al pulsar la tecla 'O' (rotar objeto actual)
+	num_objetos = 10; // se usa al pulsar la tecla 'O' (rotar objeto actual)
 }
 
 //**************************************************************************
@@ -46,7 +47,8 @@ void Escena::inicializar( int UI_window_width, int UI_window_height )
 
 	redimensionar( UI_window_width, UI_window_height );
 
-	tex->readImage();
+	tex->readImageSkybox();
+	cuadro->readImageChess();
 }
 
 // **************************************************************************
@@ -149,7 +151,15 @@ void Escena::dibujar_objeto_actual()
 		if(tex != nullptr)
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			tex->drawTexture();
+			tex->drawTextureSkybox();
+		}
+			break;
+
+	case 9:
+		if(cuadro != nullptr)
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			cuadro->drawTextureChess();
 		}
 			break;
 

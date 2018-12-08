@@ -5,6 +5,7 @@
 #include "malla.h"
 #include "jerarquico.h"
 #include "textura.h"
+#include "cuadro.h"
 
 class Escena
 {
@@ -63,6 +64,7 @@ class Escena
 	float brillo = 100.0;
 
 	Textura *tex = nullptr;
+	Cuadro *cuadro = nullptr;
 
 	public:
 

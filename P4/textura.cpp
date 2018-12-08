@@ -3,10 +3,10 @@
 Textura::Textura()
 {
     construirObjeto();
-    calcularTexels();
+    calcularTexelsSkybox();
 }
 
-void Textura::readImage()
+void Textura::readImageSkybox()
 {
     // Cargamos la imagen
     CImg <unsigned char> image;
@@ -29,7 +29,7 @@ void Textura::readImage()
         }
     }
 
-    // Generamos la textura_id
+    // Generamos la textura
     glGenTextures(1, &id_tex);
     glBindTexture(GL_TEXTURE_2D, id_tex);
 
@@ -43,10 +43,11 @@ void Textura::readImage()
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.width(), image.height(),
                  0, GL_RGB, GL_UNSIGNED_BYTE, &data[0]);
 
+    // Desactivamos la generación de textura
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Textura::drawTexture()
+void Textura::drawTextureSkybox()
 {
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 
@@ -60,7 +61,6 @@ void Textura::drawTexture()
     glVertexPointer(3, GL_FLOAT, 0, vertices.data());
     glTexCoordPointer(2, GL_FLOAT, 0, coor_tex.data());
 
-    // glDrawArrays(GL_TRIANGLES, 0, 3);
     glDrawElements(GL_TRIANGLES, 3*triangulos.size(), GL_UNSIGNED_INT, triangulos.data());
 
     glDisableClientState(GL_VERTEX_ARRAY);
@@ -69,7 +69,7 @@ void Textura::drawTexture()
     glDisable(GL_TEXTURE_2D);
 }
 
-void Textura::calcularTexels()
+void Textura::calcularTexelsSkybox()
 {
      coor_tex = {{0.25, 0.5},   // Textura del vértice 0
                  {0, 0.5},      // Textura del vértice 1
