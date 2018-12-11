@@ -71,10 +71,10 @@ void Cuadro::drawTextureChess()
 
 void Cuadro::calcularTexelsChess()
 {
-    coor_tex_chess = {{0.0, 1.0},
-                      {1.0, 1.0},
+    coor_tex_chess = {{0.0, 2.0},
+                      {2.0, 2.0},
                       {0.0, 0.0},
-                      {1.0, 0.0}
+                      {2.0, 0.0}
                      };
 }
 
