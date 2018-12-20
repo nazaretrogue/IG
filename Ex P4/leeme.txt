@@ -1,0 +1,7 @@
+tecla 'l' o 'L' -> para mover la luz marrón en el eje Z positivo
+tecla 'j' o 'J' -> para mover la luz marrón en el eje Z negativo
+tecla 'e' o 'E' -> para cambiar el material especular
+tecla 'b' o 'B' -> para cambiar el brillo
+tecla 'd' o 'D' -> para cambiar el material difuso/ambiente
+tecla 'm' o 'M' -> para cambiar de modo (modo puntos, líneas, relleno, ajedrez, luces flat, luces smooth)
+tecla 'o' U 'O' -> para cambiar el objeto (cubo, tetraedro, ply, cilindro, cono, esfera, objeto jerárquico, skybox práctica 4, rejilla copo de nieve, cubo de material blanco para las luces marrón y celeste)
