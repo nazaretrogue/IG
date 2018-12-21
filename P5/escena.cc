@@ -107,65 +107,65 @@ void Escena::dibujar_objeto_actual()
 
 	switch( objeto_actual )
 	{
-	case 0:
-		if (cubo != nullptr)
-			cubo->draw(modo, inmediato);
-			break;
+		case 0:
+			if (cubo != nullptr)
+				cubo->draw(modo, inmediato);
+				break;
 
-	case 1:
-		if(tetraedro != nullptr)
-			tetraedro->draw(modo, inmediato);
-			break;
+		case 1:
+			if(tetraedro != nullptr)
+				tetraedro->draw(modo, inmediato);
+				break;
 
-	case 2:
-		if(objply != nullptr)
-			objply->draw(modo, inmediato);
-			break;
+		case 2:
+			if(objply != nullptr)
+				objply->draw(modo, inmediato);
+				break;
 
-	case 3:
-		if(objrev != nullptr)
-			objrev->draw(modo, inmediato);
-			break;
+		case 3:
+			if(objrev != nullptr)
+				objrev->draw(modo, inmediato);
+				break;
 
-	case 4:
-		if(cilindro != nullptr)
-			cilindro->draw(modo, inmediato);
-			break;
+		case 4:
+			if(cilindro != nullptr)
+				cilindro->draw(modo, inmediato);
+				break;
 
-	case 5:
-		if(cono != nullptr)
-			cono->draw(modo, inmediato);
-			break;
+		case 5:
+			if(cono != nullptr)
+				cono->draw(modo, inmediato);
+				break;
 
-	case 6:
-		if(esfera != nullptr)
-			esfera->draw(modo, inmediato);
-			break;
+		case 6:
+			if(esfera != nullptr)
+				esfera->draw(modo, inmediato);
+				break;
 
-	case 7:
-		if(objjer != nullptr)
-			objjer->draw(modo, inmediato);
-			break;
+		case 7:
+			if(objjer != nullptr)
+				objjer->draw(modo, inmediato);
+				break;
 
-	case 8:
-		if(tex != nullptr)
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			tex->drawTextureSkybox();
-		}
-			break;
+		case 8:
+			if(tex != nullptr)
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				tex->drawTextureSkybox();
+			}
+				break;
 
-	case 9:
-		if(cuadro != nullptr)
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			cuadro->drawTextureChess();
-		}
-			break;
+		case 9:
+			if(cuadro != nullptr)
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				cuadro->drawTextureChess();
+			}
+				break;
 
-	default:
-		cout << "draw_object: el número de objeto actual (" << objeto_actual << ") es incorrecto." << endl;
-		break;
+		default:
+			cout << "draw_object: el número de objeto actual (" << objeto_actual << ") es incorrecto." << endl;
+			break;
 	}
 }
 
@@ -199,61 +199,61 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
 
 	switch(tecla)
 	{
-	case 'Q':
-	case 'q':
-		// salir
-		return true;
-		break;
-	case 'O':
-	case 'o':
-		// activar siguiente objeto
-		objeto_actual = (objeto_actual + 1) % num_objetos;
-		cout << "objeto actual == " << objeto_actual << endl;
-		break;
-	case 'M':
-	case 'm':
-		// cambiar de modo de visualización
-		modo = (modo + 1) % 6;
-		break;
-	case 'V':
-	case 'v':
-		// cambiar entre modo de dibujo inmediato y diferido
-		inmediato = !inmediato;
-		break;
-	case 'P':
-	case 'p':
-		// cambiar de parámetro del objeto jerárquico
-		objjer->siguienteParametro();
-		break;
-	case 'A':
-	case 'a':
-		// cambiar entre animaciones sí o no
-		conmutarAnimaciones();
-		break;
-	case 'Z':
-		// incrementa el valor del parámetro actual si hay animaciones
-		objjer->incrementaParamAct();
-		break;
-	case 'z':
-		// decrementa el valor del parámetro actual si hay animaciones
-		objjer->decrementaParamAct();
-		break;
-	case '>':
-		// incrementa el parámetro usado en las animaciones
-		objjer->acelerar();
-		break;
-	case '<':
-		// decrementa el parámetro usado en las animaciones
-		objjer->decelerar();
-		break;
-	case 'l':
-	case 'L':
-		giro_luz = (giro_luz + 15)%360;
-		break;
-	case 't':
-	case 'T':
-		material = (material+1)%2;
-		break;
+		case 'Q':
+		case 'q':
+			// salir
+			return true;
+			break;
+		case 'O':
+		case 'o':
+			// activar siguiente objeto
+			objeto_actual = (objeto_actual + 1) % num_objetos;
+			cout << "objeto actual == " << objeto_actual << endl;
+			break;
+		case 'M':
+		case 'm':
+			// cambiar de modo de visualización
+			modo = (modo + 1) % 6;
+			break;
+		case 'V':
+		case 'v':
+			// cambiar entre modo de dibujo inmediato y diferido
+			inmediato = !inmediato;
+			break;
+		case 'P':
+		case 'p':
+			// cambiar de parámetro del objeto jerárquico
+			objjer->siguienteParametro();
+			break;
+		case 'A':
+		case 'a':
+			// cambiar entre animaciones sí o no
+			conmutarAnimaciones();
+			break;
+		case 'Z':
+			// incrementa el valor del parámetro actual si hay animaciones
+			objjer->incrementaParamAct();
+			break;
+		case 'z':
+			// decrementa el valor del parámetro actual si hay animaciones
+			objjer->decrementaParamAct();
+			break;
+		case '>':
+			// incrementa el parámetro usado en las animaciones
+			objjer->acelerar();
+			break;
+		case '<':
+			// decrementa el parámetro usado en las animaciones
+			objjer->decelerar();
+			break;
+		case 'l':
+		case 'L':
+			giro_luz = (giro_luz + 15)%360;
+			break;
+		case 't':
+		case 'T':
+			material = (material+1)%2;
+			break;
 	}
 	return false;
 }
@@ -263,24 +263,24 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
 {
 	switch ( Tecla1 )
 	{
-	case GLUT_KEY_LEFT:
-		Observer_angle_y--;
-		break;
-	case GLUT_KEY_RIGHT:
-		Observer_angle_y++;
-		break;
-	case GLUT_KEY_UP:
-		Observer_angle_x--;
-		break;
-	case GLUT_KEY_DOWN:
-		Observer_angle_x++;
-		break;
-	case GLUT_KEY_PAGE_UP:
-		Observer_distance *= 1.2;
-		break;
-	case GLUT_KEY_PAGE_DOWN:
-		Observer_distance /= 1.2;
-		break;
+		case GLUT_KEY_LEFT:
+			Observer_angle_y--;
+			break;
+		case GLUT_KEY_RIGHT:
+			Observer_angle_y++;
+			break;
+		case GLUT_KEY_UP:
+			Observer_angle_x--;
+			break;
+		case GLUT_KEY_DOWN:
+			Observer_angle_x++;
+			break;
+		case GLUT_KEY_PAGE_UP:
+			Observer_distance *= 1.2;
+			break;
+		case GLUT_KEY_PAGE_DOWN:
+			Observer_distance /= 1.2;
+			break;
 	}
 
 	//std::cout << Observer_distance << std::endl;

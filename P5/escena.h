@@ -46,6 +46,7 @@ class Escena
 	Esfera *esfera = nullptr;
 	ObjJerarquico *objjer = nullptr;
 
+	// Luces
 	Luces luz;
 	int giro_luz = 0;
 	int material = 0;
@@ -63,6 +64,7 @@ class Escena
 	// Brillo
 	float brillo = 100.0;
 
+	// Texturas
 	Textura *tex = nullptr;
 	Cuadro *cuadro = nullptr;
 
