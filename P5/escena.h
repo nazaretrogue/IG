@@ -6,6 +6,7 @@
 #include "jerarquico.h"
 #include "textura.h"
 #include "cuadro.h"
+#include "camara.h"
 
 class Escena
 {
@@ -68,6 +69,13 @@ class Escena
 	Textura *tex = nullptr;
 	Cuadro *cuadro = nullptr;
 
+	// Cámaras
+	Camara *camaras;
+	int camara_activa = 0;
+
+	int xant = 0,
+		yant = 0;
+
 	public:
 
 	Escena();
@@ -80,6 +88,9 @@ class Escena
 	// Interacción con la escena
 	bool teclaPulsada( unsigned char Tecla1, int x, int y ) ;
 	void teclaEspecial( int Tecla1, int x, int y );
+
+	void ratonMovido(int x, int y);
+	//void change_observer();
 
 	// Para las animaciones
 	void mgeDesocupado();

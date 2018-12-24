@@ -18,6 +18,8 @@ Escena::Escena()
 
 	ejes.changeAxisSize( 5000 );
 
+	camaras = new Camara();
+
 	// crear los objetos de las prácticas: Mallas o Jerárquicos....
 	cubo = new Cubo();
 	tetraedro = new Tetraedro();
@@ -254,6 +256,10 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
 		case 'T':
 			material = (material+1)%2;
 			break;
+		case 'c':
+		case 'C':
+			camara_activa = (camara_activa+1)%2;
+			break;
 	}
 	return false;
 }
@@ -287,6 +293,16 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
 }
 
 //**************************************************************************
+// Función para comprobar los movimientos del ratón
+
+void Escena::ratonMovido(int x, int y)
+{
+	camaras[camara_activa].girar(x-xant, y-yant);
+	xant = x;
+	yant = y;
+}
+
+//**************************************************************************
 // Funcion para definir la transformación de proyeccion
 //
 // ratio_xy : relacción de aspecto del viewport ( == ancho(X) / alto(Y) )
@@ -317,7 +333,7 @@ void Escena::redimensionar( int newWidth, int newHeight )
 // Funcion para definir la transformación de vista (posicionar la camara)
 //***************************************************************************
 
-void Escena::change_observer()
+/*void Escena::change_observer()
 {
 	// posicion del observador
 	glMatrixMode(GL_MODELVIEW);
@@ -325,8 +341,15 @@ void Escena::change_observer()
 	glTranslatef( 0.0, 0.0, -Observer_distance );
 	glRotatef( Observer_angle_x, 1.0,0.0, 0.0 );
 	glRotatef( Observer_angle_y, 0.0, 1.0, 0.0 );
-}
+}*/
 
+void Escena::change_observer()
+{
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef( 0.0, 0.0, -Observer_distance );
+	camaras[camara_activa].setObservador();
+}
 //***************************************************************************
 // Función para las animaciones (idle)
 //***************************************************************************

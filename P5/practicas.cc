@@ -89,12 +89,7 @@ void special_keys( int tecla, int x, int y )
 }
 
 //***************************************************************************
-// Funcion llamada cuando se produce aprieta una tecla especial
-//
-// el evento manda a la funcion:
-// codigo de la tecla
-// posicion x del raton
-// posicion y del raton
+// Funcion llamada cuando se desactivan las animaciones
 
 //***************************************************************************
 
@@ -103,6 +98,26 @@ void funcion_desocupado()
 	if(escena != NULL)
 		escena->mgeDesocupado();
 }
+
+//***************************************************************************
+// Funcion llamada cuando se pulsan los botones el ratón
+//***************************************************************************
+void ratonMovido(int x, int y)
+{
+	escena->ratonMovido(x, y);
+}
+
+void clickRaton(int boton, int estado, int x, int y)
+{
+	if(boton == GLUT_RIGHT_BUTTON && estado == GLUT_DOWN)
+	{
+		if(escena != NULL)
+			ratonMovido(x, y);
+	}
+
+	glutPostRedisplay();
+}
+
 
 //***************************************************************************
 // Programa principal
@@ -153,6 +168,8 @@ int main( int argc, char **argv )
    // asignación de la funcion llamada "tecla_Especial" al evento correspondiente
    glutSpecialFunc( special_keys );
 
+   glutMouseFunc(clickRaton);
+   glutMotionFunc(ratonMovido);
    // inicialización de librería GLEW (solo en Linux)
    #ifdef LINUX
    const GLenum codigoError = glewInit();
