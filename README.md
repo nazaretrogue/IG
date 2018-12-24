@@ -1,7 +1,7 @@
 # IG
 Prácticas de Informática Gráfica en la UGR.
 
-Nota de las prácticas y los exámenes:
+Nota de las prácticas y los exámenes:\n
   ·Práctica 1 = 8.
   ·Práctica 2 = 9.
   ·Práctica 3 = 10.
