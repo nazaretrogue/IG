@@ -8,15 +8,8 @@ Camara::Camara()
 
 void Camara::girar(int x, int y)
 {
-    if(x < Observer_angle_x)
-		Observer_angle_x--;
-	else if(x > Observer_angle_x)
-		Observer_angle_x++;
-
-	else if(y < Observer_angle_y)
-		Observer_angle_y--;
-	else if(y > Observer_angle_y)
-		Observer_angle_y++;
+    Observer_angle_x += x;
+    Observer_angle_y += y;
 }
 
 void Camara::setObservador()
