@@ -290,6 +290,105 @@ ObjPLY::ObjPLY( const std::string & nombre_archivo )
 
 // *****************************************************************************
 //
+// Clase ObjSeleccion
+//
+// *****************************************************************************
+
+ObjSeleccion::ObjSeleccion()
+{
+	aspa1 = new Aspa();
+	aspa2 = new Aspa();
+	aspa3 = new Aspa();
+	aspa4 = new Aspa();
+
+	draw(3, false);
+}
+
+void ObjSeleccion::draw(int mode, bool dibujo)
+{
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	if(r == 204)
+	{
+  		glColor3ub(51, 204, 255);
+		r = 51;
+	}
+
+	else
+	{
+		glColor3ub(204, 102, 255);
+		r = 204;
+	}
+
+	glPushMatrix();
+		glPushMatrix();
+			aspa1->draw(mode, dibujo);std::cout << "hola" << std::endl;
+		glPopMatrix();
+
+		glPushMatrix();
+			glRotatef(-90, 0.0, 0.0, 1.0);
+			aspa2->draw(mode, dibujo);
+		glPopMatrix();
+
+		glPushMatrix();
+			glRotatef(-180, 0.0, 0.0, 1.0);
+			aspa3->draw(mode, dibujo);
+		glPopMatrix();
+
+		glPushMatrix();
+			glRotatef(-270, 0.0, 0.0, 1.0);
+			aspa4->draw(mode, dibujo);
+		glPopMatrix();
+	glPopMatrix();
+}
+
+Aspa* ObjSeleccion::getAspa(int num)
+{
+	Aspa *a;
+
+	if(num == 1)
+		a = aspa1;
+
+	else if(num == 2)
+		a = aspa2;
+
+	else if(num == 3)
+		a = aspa3;
+
+	else
+		a = aspa4;
+
+	return a;
+}
+
+Aspa::Aspa()
+{
+	vertices =  {{+0.0, +0.0, +0.0}, // 0
+				 {-0.5, -1.0, -0.5}, // 1
+				 {-0.5, -1.0, +0.5}, // 2
+				 {+0.5, -1.0, +0.5}, // 3
+				 {+0.5, -1.0, -0.5}  // 4
+				};
+
+	// Se crean las caras de la pirámide
+	triangulos = {{0, 1, 2}, {0, 2, 3},
+				  {0, 3, 4}, {0, 4, 1},
+				  {2, 1, 4}, {3, 2, 4}
+				 };
+}
+
+void Aspa::draw(int modo, bool dibujo)
+{
+	glEnableClientState(GL_VERTEX_ARRAY); // Activar array vértices
+
+	glVertexPointer(3, GL_FLOAT, 0, vertices.data());
+	glDrawElements(GL_TRIANGLES, 3*triangulos.size(), GL_UNSIGNED_INT, triangulos.data());
+
+	glDisableClientState(GL_VERTEX_ARRAY); // Desactivar array vértices
+}
+
+// *****************************************************************************
+//
 // Clase ObjRevolucion (práctica 2)
 //
 // *****************************************************************************

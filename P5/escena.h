@@ -70,11 +70,14 @@ class Escena
 	Cuadro *cuadro = nullptr;
 
 	// Cámaras
-	Camara *camaras;
+	std::vector<Camara> camaras;
 	int camara_activa = 0;
 
 	int xant = 0,
 		yant = 0;
+
+	// Objeto para seleccionar
+	ObjSeleccion *molino = nullptr;
 
 	public:
 
@@ -83,6 +86,7 @@ class Escena
 	void redimensionar( int newWidth, int newHeight ) ;
 
 	// Dibujar
+	void drawBufferTrasero(); // Para la selección por color
 	void dibujar() ;
 
 	// Interacción con la escena

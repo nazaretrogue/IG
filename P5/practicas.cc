@@ -108,6 +108,7 @@ void funcion_desocupado()
 void ratonMovido(int x, int y)
 {
 	escena->ratonMovido(x, y);
+	glutPostRedisplay();
 }
 
 void clickRaton(int boton, int estado, int x, int y)
@@ -170,8 +171,6 @@ int main( int argc, char **argv )
 
    // asignación de la funcion llamada "tecla_Especial" al evento correspondiente
    glutSpecialFunc( special_keys );
-
-   glutIdleFunc(funcion_desocupado);
 
    glutMouseFunc(clickRaton);
    glutMotionFunc(ratonMovido);

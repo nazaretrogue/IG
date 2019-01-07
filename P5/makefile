@@ -47,4 +47,4 @@ $(units_cc) : $(headers)
 	touch $(units_cc)
 
 clean:
-	rm -f *.o *_exe
+	rm -f *.o *_exe *.gch

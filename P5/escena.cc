@@ -18,7 +18,13 @@ Escena::Escena()
 
 	ejes.changeAxisSize( 5000 );
 
-	camaras = new Camara();
+	camaras.clear();
+
+	Camara cam_aux = new Camara();
+	camaras.push_back(cam_aux); // Cámara original, en perspectiva
+
+	cam_aux = new Camara(true);
+	camaras.push_back(cam_aux); // Cámara ortogonal
 
 	// crear los objetos de las prácticas: Mallas o Jerárquicos....
 	cubo = new Cubo();
@@ -31,8 +37,9 @@ Escena::Escena()
 	objjer = new ObjJerarquico();
 	tex = new Textura();
 	cuadro = new Cuadro();
+	molino = new ObjSeleccion();
 
-	num_objetos = 10; // se usa al pulsar la tecla 'O' (rotar objeto actual)
+	num_objetos = 11; // se usa al pulsar la tecla 'O' (rotar objeto actual)
 }
 
 //**************************************************************************
@@ -165,6 +172,11 @@ void Escena::dibujar_objeto_actual()
 			}
 				break;
 
+		case 10:
+			if(molino != nullptr)
+				molino->draw(modo, inmediato);
+				break;
+
 		default:
 			cout << "draw_object: el número de objeto actual (" << objeto_actual << ") es incorrecto." << endl;
 			break;
@@ -184,6 +196,17 @@ void Escena::dibujar()
 	change_observer();
 	ejes.draw();
 	dibujar_objeto_actual();
+
+	if(objeto_actual == 10)
+	{
+		glDrawBuffer(GL_BACK);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		change_observer();
+		drawBufferTrasero();
+		glDrawBuffer(GL_FRONT);
+	}
+
+	glFlush();
 }
 
 //**************************************************************************
@@ -315,7 +338,10 @@ void Escena::change_projection( const float ratio_xy )
 	glLoadIdentity();
 	const float wy = 0.84 * Front_plane,
 		    wx = ratio_xy * wy;
-	glFrustum( -wx, +wx, -wy, +wy, Front_plane, Back_plane );
+	if(camara_activa != 1)
+		glFrustum( -wx, +wx, -wy, +wy, Front_plane, Back_plane );
+	else
+		camaras[camara_activa].proyeccionOrto();
 }
 //***************************************************************************
 // Funcion que se invoca cuando cambia el tamaño de la ventana
@@ -382,4 +408,40 @@ void Escena::conmutarAnimaciones()
 		else
 			glutIdleFunc(nullptr);
 	}
+}
+
+void Escena::drawBufferTrasero()
+{
+	int inc = 0;
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	glPushMatrix();
+		glPushMatrix();
+			glColor3ub(100, 100, 100);
+			(molino->getAspa(1))->draw(modo, inmediato);
+		glPopMatrix();
+
+		inc += 20;
+
+		glPushMatrix();
+			glColor3ub(100+inc, 100+inc, 100+inc);
+			glRotatef(-90, 0.0, 0.0, 1.0);
+			(molino->getAspa(2))->draw(modo, inmediato);
+		glPopMatrix();
+
+		inc += 20;
+
+		glPushMatrix();
+			glColor3ub(100+inc, 100+inc, 100+inc);
+			glRotatef(-180, 0.0, 0.0, 1.0);
+			(molino->getAspa(3))->draw(modo, inmediato);
+		glPopMatrix();
+
+		inc += 20;
+
+		glPushMatrix();
+			glColor3ub(100+inc, 100+inc, 100+inc);
+			glRotatef(-270, 0.0, 0.0, 1.0);
+			(molino->getAspa(4))->draw(modo, inmediato);
+		glPopMatrix();
 }

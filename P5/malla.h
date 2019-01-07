@@ -79,7 +79,6 @@ class Cubo : public ObjMallaIndexada
 {
    public:
    Cubo();
-
 } ;
 
 /******************************************************************************/
@@ -98,8 +97,30 @@ class ObjPLY : public ObjMallaIndexada
 {
    public:
       ObjPLY( const std::string & nombre_archivo );
-
 } ;
+
+// *****************************************************************************
+// objetos creado para la selección mediante el ratón
+
+class Aspa : public ObjMallaIndexada
+{
+	public:
+		Aspa();
+		void draw(int modo, bool dibujo);
+};
+
+class ObjSeleccion : public ObjMallaIndexada
+{
+	public:
+		ObjSeleccion();
+		void draw(int mode, bool dibujo);
+		void drawAspa();
+		Aspa* getAspa(int num);
+
+	private:
+		Aspa *aspa1, *aspa2, *aspa3, *aspa4;
+		int r;
+};
 
 // *****************************************************************************
 // objeto de revolución obtenido a partir de un perfil (en un PLY)
