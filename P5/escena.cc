@@ -412,6 +412,7 @@ void Escena::conmutarAnimaciones()
 
 void Escena::drawBufferTrasero()
 {
+	glDisable(GL_DITHER);
 	int inc = 0;
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -444,4 +445,40 @@ void Escena::drawBufferTrasero()
 			glRotatef(-270, 0.0, 0.0, 1.0);
 			(molino->getAspa(4))->draw(modo, inmediato);
 		glPopMatrix();
+	glPopMatrix();
+
+	glEnable(GL_DITHER);
+}
+
+void Escena::seleccionarAspa(unsigned char pixel[3])
+{
+	switch (pixel[0]) {
+		case 100:
+			(molino->getAspa(1))->draw(modo, inmediato);
+			break;
+
+		case 120:
+			(molino->getAspa(2))->draw(modo, inmediato);
+			break;
+
+		case 140:
+			(molino->getAspa(3))->draw(modo, inmediato);
+			break;
+
+		case 180:
+			(molino->getAspa(4))->draw(modo, inmediato);
+			break;
+	}
+}
+
+void Escena::pickObjeto(int x, int y)
+{
+	unsigned char pixel_leido[3];
+
+	glReadBuffer(GL_BACK);
+	glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, (GLubyte *) &pixel_leido[0]);
+
+	seleccionarAspa(pixel_leido);
+
+	glutPostRedisplay();
 }

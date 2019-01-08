@@ -85,8 +85,12 @@ class Escena
 	void inicializar( int UI_window_width, int UI_window_height );
 	void redimensionar( int newWidth, int newHeight ) ;
 
+	// Para la selección por color
+	void drawBufferTrasero();
+	void seleccionarAspa(unsigned char pixel[3]);
+	void pickObjeto(int x, int y);
+
 	// Dibujar
-	void drawBufferTrasero(); // Para la selección por color
 	void dibujar() ;
 
 	// Interacción con la escena

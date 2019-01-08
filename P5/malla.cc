@@ -322,7 +322,7 @@ void ObjSeleccion::draw(int mode, bool dibujo)
 
 	glPushMatrix();
 		glPushMatrix();
-			aspa1->draw(mode, dibujo);std::cout << "hola" << std::endl;
+			aspa1->draw(mode, dibujo);
 		glPopMatrix();
 
 		glPushMatrix();

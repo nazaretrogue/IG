@@ -119,6 +119,24 @@ void clickRaton(int boton, int estado, int x, int y)
 			ratonMovido(x, y);
 	}
 
+	if(boton == 3)
+	{
+		if(escena != NULL)
+			escena->teclaEspecial(GLUT_KEY_PAGE_UP, x, y);
+	}
+
+	else if(boton == 4)
+	{
+		if(escena != NULL)
+			escena->teclaEspecial(GLUT_KEY_PAGE_DOWN, x, y);
+	}
+
+	if(boton == GLUT_LEFT_BUTTON && estado == GLUT_DOWN)
+	{
+		if(escena != NULL)
+			escena->pickObjeto(x, y);
+	}
+
 	glutPostRedisplay();
 }
 
