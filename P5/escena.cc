@@ -192,6 +192,7 @@ void Escena::dibujar_objeto_actual()
 
 void Escena::dibujar()
 {
+   	//glDrawBuffer(GL_FRONT);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // Limpiar la pantalla
 	change_observer();
 	ejes.draw();
@@ -206,7 +207,7 @@ void Escena::dibujar()
 		glDrawBuffer(GL_FRONT);
 	}
 
-	glFlush();
+	//glFlush();
 }
 
 //**************************************************************************
@@ -293,16 +294,20 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
 	switch ( Tecla1 )
 	{
 		case GLUT_KEY_LEFT:
-			Observer_angle_y--;
+			yant--;
+			camaras[camara_activa].girar(0.0, -1.0);
 			break;
 		case GLUT_KEY_RIGHT:
-			Observer_angle_y++;
+			yant++;
+			camaras[camara_activa].girar(0.0, 1.0);
 			break;
 		case GLUT_KEY_UP:
-			Observer_angle_x--;
+			xant++;
+			camaras[camara_activa].girar(1.0, 0.0);
 			break;
 		case GLUT_KEY_DOWN:
-			Observer_angle_x++;
+			xant--;
+			camaras[camara_activa].girar(-1.0, 0.0);
 			break;
 		case GLUT_KEY_PAGE_UP:
 			Observer_distance *= 1.2;

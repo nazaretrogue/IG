@@ -24,9 +24,11 @@ Escena *escena = nullptr ;
 
 void draw_scene(void)
 {
+   glDrawBuffer(GL_FRONT);
 	if ( escena != nullptr )
       escena->dibujar();
-	glutSwapBuffers();
+	//glutSwapBuffers();
+	glFlush();
 }
 
 //***************************************************************************
