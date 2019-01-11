@@ -1,4 +1,4 @@
-# IG
+# Información sobre calificaciones de IG
 Prácticas de Informática Gráfica en la UGR.
 
 Nota de las prácticas y los exámenes:  
