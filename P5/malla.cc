@@ -300,46 +300,76 @@ ObjSeleccion::ObjSeleccion()
 	aspa2 = new Aspa();
 	aspa3 = new Aspa();
 	aspa4 = new Aspa();
-
-	draw(3, false);
 }
 
-void ObjSeleccion::draw(int mode, bool dibujo)
+void ObjSeleccion::draw(int mode, bool dibujo, int r, int g, int b)
 {
+	glDisable(GL_DITHER);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	if(r == 204)
-	{
-  		glColor3ub(51, 204, 255);
-		r = 51;
-	}
-
-	else
-	{
-		glColor3ub(204, 102, 255);
-		r = 204;
-	}
-
 	glPushMatrix();
-		glPushMatrix();
-			aspa1->draw(mode, dibujo);
-		glPopMatrix();
 
-		glPushMatrix();
-			glRotatef(-90, 0.0, 0.0, 1.0);
-			aspa2->draw(mode, dibujo);
-		glPopMatrix();
+		// Elegimos qué aspa o aspas estamos pintando
+		if(mode == 0)
+		{
+			glPushMatrix();
+				glColor3ub(r, g, b);
+				aspa1->draw(mode, dibujo);
+			glPopMatrix();
 
-		glPushMatrix();
-			glRotatef(-180, 0.0, 0.0, 1.0);
-			aspa3->draw(mode, dibujo);
-		glPopMatrix();
+			glPushMatrix();
+				glColor3ub(r, g, b);
+				glRotatef(-90, 0.0, 0.0, 1.0);
+				aspa2->draw(mode, dibujo);
+			glPopMatrix();
 
-		glPushMatrix();
-			glRotatef(-270, 0.0, 0.0, 1.0);
-			aspa4->draw(mode, dibujo);
-		glPopMatrix();
+			glPushMatrix();
+				glColor3ub(r, g, b);
+				glRotatef(-180, 0.0, 0.0, 1.0);
+				aspa3->draw(mode, dibujo);
+			glPopMatrix();
+
+			glPushMatrix();
+				glColor3ub(r, g, b);
+				glRotatef(-270, 0.0, 0.0, 1.0);
+				aspa4->draw(mode, dibujo);
+			glPopMatrix();
+		}
+
+		else if(mode == 1)
+		{
+			glPushMatrix();
+				glColor3ub(r, g, b);
+				aspa1->draw(mode, dibujo);
+			glPopMatrix();
+		}
+
+		else if(mode == 2)
+		{
+			glPushMatrix();
+				glColor3ub(r, g, b);
+				aspa2->draw(mode, dibujo);
+			glPopMatrix();
+		}
+
+		else if(mode == 3)
+		{
+			glPushMatrix();
+				glColor3ub(r, g, b);
+				aspa3->draw(mode, dibujo);
+			glPopMatrix();
+		}
+
+		else if(mode == 4)
+		{
+			glPushMatrix();
+				glColor3ub(r, g, b);
+				aspa4->draw(mode, dibujo);
+			glPopMatrix();
+		}
+
 	glPopMatrix();
+	glEnable(GL_DITHER);
 }
 
 Aspa* ObjSeleccion::getAspa(int num)
@@ -355,11 +385,17 @@ Aspa* ObjSeleccion::getAspa(int num)
 	else if(num == 3)
 		a = aspa3;
 
-	else
+	else if(num == 4)
 		a = aspa4;
 
 	return a;
 }
+
+// *****************************************************************************
+//
+// Clase Aspa
+//
+// *****************************************************************************
 
 Aspa::Aspa()
 {

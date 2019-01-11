@@ -174,7 +174,7 @@ void Escena::dibujar_objeto_actual()
 
 		case 10:
 			if(molino != nullptr)
-				molino->draw(modo, inmediato);
+				drawBufferDelantero();
 				break;
 
 		default:
@@ -192,7 +192,6 @@ void Escena::dibujar_objeto_actual()
 
 void Escena::dibujar()
 {
-   	//glDrawBuffer(GL_FRONT);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // Limpiar la pantalla
 	change_observer();
 	ejes.draw();
@@ -323,11 +322,32 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
 //**************************************************************************
 // Función para comprobar los movimientos del ratón
 
+void Escena::activarMovimientoRaton(int num)
+{
+	if(num == 0)
+		raton = MOVER;
+
+	else if(num == 1)
+		raton = ACERCAR;
+
+	else if(num == 2)
+		raton = ALEJAR;
+
+	else if(num == 3)
+		raton = PICK;
+
+	else
+		raton = IDLE;
+}
+
 void Escena::ratonMovido(int x, int y)
 {
-	camaras[camara_activa].girar(x-xant, y-yant);
-	xant = x;
-	yant = y;
+	if(raton == MOVER)
+	{
+		camaras[camara_activa].girar(x-xant, y-yant);
+		xant = x;
+		yant = y;
+	}
 }
 
 //**************************************************************************
@@ -415,73 +435,163 @@ void Escena::conmutarAnimaciones()
 	}
 }
 
+/******************************************************************************/
+// Funciones para la selección con el ratón del objeto
+
+/******************************************************************************/
+
+/******************************************************************************/
+// Pinta el buffer trasero con distintos tonos de gris para poder elegir el
+// aspa que se va a cambiar de color
+
+/******************************************************************************/
+
 void Escena::drawBufferTrasero()
 {
 	glDisable(GL_DITHER);
-	int inc = 0;
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	glPushMatrix();
 		glPushMatrix();
 			glColor3ub(100, 100, 100);
-			(molino->getAspa(1))->draw(modo, inmediato);
+			molino->draw(1, false, 100, 100, 100);
 		glPopMatrix();
 
-		inc += 20;
-
 		glPushMatrix();
-			glColor3ub(100+inc, 100+inc, 100+inc);
 			glRotatef(-90, 0.0, 0.0, 1.0);
-			(molino->getAspa(2))->draw(modo, inmediato);
+			molino->draw(2, false, 130, 130, 130);
 		glPopMatrix();
 
-		inc += 20;
-
 		glPushMatrix();
-			glColor3ub(100+inc, 100+inc, 100+inc);
 			glRotatef(-180, 0.0, 0.0, 1.0);
-			(molino->getAspa(3))->draw(modo, inmediato);
+			molino->draw(3, false, 160, 160, 160);
 		glPopMatrix();
 
-		inc += 20;
-
 		glPushMatrix();
-			glColor3ub(100+inc, 100+inc, 100+inc);
 			glRotatef(-270, 0.0, 0.0, 1.0);
-			(molino->getAspa(4))->draw(modo, inmediato);
+			molino->draw(4, false, 190, 190, 190);
 		glPopMatrix();
 	glPopMatrix();
 
 	glEnable(GL_DITHER);
 }
 
+void Escena::drawBufferDelantero()
+{
+	glDisable(GL_DITHER);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	glPushMatrix();
+		glPushMatrix();
+			molino->draw(1, false, r1, g1, b1);
+		glPopMatrix();
+
+		glPushMatrix();
+			glRotatef(-90, 0.0, 0.0, 1.0);
+			molino->draw(2, false, r2, g2, b2);
+		glPopMatrix();
+
+		glPushMatrix();
+			glRotatef(-180, 0.0, 0.0, 1.0);
+			molino->draw(3, false, r3, g3, b3);
+		glPopMatrix();
+
+		glPushMatrix();
+			glRotatef(-270, 0.0, 0.0, 1.0);
+			molino->draw(4, false, r4, g4, b4);
+		glPopMatrix();
+	glPopMatrix();
+
+	glEnable(GL_DITHER);
+}
+
+/******************************************************************************/
+// Se selecciona el aspa que se ha pulsado desde la función pick_color
+/******************************************************************************/
+
 void Escena::seleccionarAspa(unsigned char pixel[3])
 {
-	switch (pixel[0]) {
+	switch (pixel[0])
+	{
 		case 100:
-			(molino->getAspa(1))->draw(modo, inmediato);
+		{
+			if(r1 == 204)
+			{
+				glColor3ub(51, 204, 255);
+				r1 = 51; g1 = 204; b1 = 255;
+			}
+
+			else
+			{
+				glColor3ub(204, 102, 255);
+				r1 = 204; g1 = 102; b1 = 255;
+			}
+		}
 			break;
 
-		case 120:
-			(molino->getAspa(2))->draw(modo, inmediato);
+		case 130:
+		{
+			if(r2 == 204)
+			{
+				glColor3ub(51, 204, 255);
+				r2 = 51; g2 = 204; b2 = 255;
+			}
+
+			else
+			{
+				glColor3ub(204, 102, 255);
+				r2 = 204; g2 = 102; b2 = 255;
+			}
+		}
 			break;
 
-		case 140:
-			(molino->getAspa(3))->draw(modo, inmediato);
+		case 160:
+		{
+			if(r3 == 204)
+			{
+				glColor3ub(51, 204, 255);
+				r3 = 51; g3 = 204; b3 = 255;
+			}
+
+			else
+			{
+				glColor3ub(204, 102, 255);
+				r3 = 204; g3 = 102; b3 = 255;
+			}
+		}
 			break;
 
-		case 180:
-			(molino->getAspa(4))->draw(modo, inmediato);
+		case 190:
+		{
+			if(r4 == 204)
+			{
+				glColor3ub(51, 204, 255);
+				r4 = 51; g4 = 204; b4 = 255;
+			}
+
+			else
+			{
+				glColor3ub(204, 102, 255);
+				r4 = 204; g4 = 102; b4 = 255;
+			}
+		}
 			break;
 	}
 }
 
+/******************************************************************************/
+// Función que se llama al pulsar el botón del ratón
+/******************************************************************************/
+
 void Escena::pickObjeto(int x, int y)
 {
+	GLint viewport[4];
 	unsigned char pixel_leido[3];
 
+	glGetIntegerv(GL_VIEWPORT, viewport);
 	glReadBuffer(GL_BACK);
-	glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, (GLubyte *) &pixel_leido[0]);
+	glReadPixels(x, viewport[3] - y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, (GLubyte *) &pixel_leido[0]);
+	printf("Coordenada(%d, %d)->Color(%d, %d, %d)\n", x, y, pixel_leido[0], pixel_leido[1], pixel_leido[2]);
 
 	seleccionarAspa(pixel_leido);
 

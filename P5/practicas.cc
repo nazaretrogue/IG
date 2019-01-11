@@ -24,11 +24,12 @@ Escena *escena = nullptr ;
 
 void draw_scene(void)
 {
-   glDrawBuffer(GL_FRONT);
+    glDrawBuffer(GL_FRONT);
+
 	if ( escena != nullptr )
       escena->dibujar();
 	//glutSwapBuffers();
-	glFlush();
+    glFlush();
 }
 
 //***************************************************************************
@@ -109,35 +110,50 @@ void funcion_desocupado()
 
 void ratonMovido(int x, int y)
 {
-	escena->ratonMovido(x, y);
-	glutPostRedisplay();
+    escena->ratonMovido(x, y);
+    glutPostRedisplay();
 }
 
 void clickRaton(int boton, int estado, int x, int y)
-{
+{using namespace std;
 	if(boton == GLUT_RIGHT_BUTTON && estado == GLUT_DOWN)
 	{
 		if(escena != NULL)
-			ratonMovido(x, y);
+			escena->activarMovimientoRaton(0);
 	}
 
-	if(boton == 3)
+	else if(boton == 3)
 	{
 		if(escena != NULL)
-			escena->teclaEspecial(GLUT_KEY_PAGE_UP, x, y);
+        {
+            escena->activarMovimientoRaton(1);
+            escena->teclaEspecial(GLUT_KEY_PAGE_UP, x, y);
+        }
 	}
 
 	else if(boton == 4)
 	{
 		if(escena != NULL)
-			escena->teclaEspecial(GLUT_KEY_PAGE_DOWN, x, y);
+        {
+            escena->activarMovimientoRaton(2);
+            escena->teclaEspecial(GLUT_KEY_PAGE_DOWN, x, y);
+        }
 	}
 
-	if(boton == GLUT_LEFT_BUTTON && estado == GLUT_DOWN)
+	else if(boton == GLUT_LEFT_BUTTON && estado == GLUT_DOWN)
 	{
 		if(escena != NULL)
-			escena->pickObjeto(x, y);
+        {
+            escena->activarMovimientoRaton(3);
+            escena->pickObjeto(x, y);
+        }
 	}
+
+    else
+    {
+        if(escena != NULL)
+            escena->activarMovimientoRaton(4);
+    }
 
 	glutPostRedisplay();
 }
@@ -194,6 +210,7 @@ int main( int argc, char **argv )
 
    glutMouseFunc(clickRaton);
    glutMotionFunc(ratonMovido);
+
    // inicialización de librería GLEW (solo en Linux)
    #ifdef LINUX
    const GLenum codigoError = glewInit();

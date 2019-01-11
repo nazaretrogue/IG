@@ -113,13 +113,12 @@ class ObjSeleccion : public ObjMallaIndexada
 {
 	public:
 		ObjSeleccion();
-		void draw(int mode, bool dibujo);
+		void draw(int mode, bool dibujo, int r, int g, int b);
 		void drawAspa();
 		Aspa* getAspa(int num);
 
 	private:
 		Aspa *aspa1, *aspa2, *aspa3, *aspa4;
-		int r;
 };
 
 // *****************************************************************************

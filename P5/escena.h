@@ -8,6 +8,8 @@
 #include "cuadro.h"
 #include "camara.h"
 
+enum TipoMovimiento {MOVER, ACERCAR, ALEJAR, PICK, IDLE};
+
 class Escena
 {
 	private:
@@ -76,8 +78,14 @@ class Escena
 	int xant = 0,
 		yant = 0;
 
+	TipoMovimiento raton;
+
 	// Objeto para seleccionar
 	ObjSeleccion *molino = nullptr;
+
+	int r1 = 204, r2 = 204, r3 = 204, r4 = 204; // Para saber el color de cada aspa
+	int g1 = 102, g2 = 102, g3 = 102, g4 = 102;
+	int b1 = 255, b2 = 255, b3 = 255, b4 = 255;
 
 	public:
 
@@ -87,6 +95,7 @@ class Escena
 
 	// Para la selección por color
 	void drawBufferTrasero();
+	void drawBufferDelantero();
 	void seleccionarAspa(unsigned char pixel[3]);
 	void pickObjeto(int x, int y);
 
@@ -97,6 +106,7 @@ class Escena
 	bool teclaPulsada( unsigned char Tecla1, int x, int y ) ;
 	void teclaEspecial( int Tecla1, int x, int y );
 
+	void activarMovimientoRaton(int num);
 	void ratonMovido(int x, int y);
 	//void change_observer();
 
