@@ -12,19 +12,17 @@ Escena::Escena()
 {
 	Front_plane = 0.1;
 	Back_plane = 2000.0;
-	Observer_distance = 2.0;
 	Observer_angle_x  = 0.0;
 	Observer_angle_y  = 0.0;
+	Observer_distance = 2.0;
 
 	ejes.changeAxisSize( 5000 );
 
-	camaras.clear();
+	Camara persp(false);
+	camaras.push_back(persp); // Cámara original, en perspectiva
 
-	Camara cam_aux = new Camara();
-	camaras.push_back(cam_aux); // Cámara original, en perspectiva
-
-	cam_aux = new Camara(true);
-	camaras.push_back(cam_aux); // Cámara ortogonal
+	Camara ortog(true);
+	camaras.push_back(ortog); // Cámara ortogonal
 
 	// crear los objetos de las prácticas: Mallas o Jerárquicos....
 	cubo = new Cubo();
@@ -281,7 +279,10 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
 			break;
 		case 'c':
 		case 'C':
+		{
 			camara_activa = (camara_activa+1)%2;
+			redimensionar(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+		}
 			break;
 	}
 	return false;
@@ -301,18 +302,18 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
 			camaras[camara_activa].girar(0.0, 1.0);
 			break;
 		case GLUT_KEY_UP:
-			xant++;
-			camaras[camara_activa].girar(1.0, 0.0);
-			break;
-		case GLUT_KEY_DOWN:
 			xant--;
 			camaras[camara_activa].girar(-1.0, 0.0);
 			break;
+		case GLUT_KEY_DOWN:
+			xant++;
+			camaras[camara_activa].girar(+1.0, 0.0);
+			break;
 		case GLUT_KEY_PAGE_UP:
-			Observer_distance *= 1.2;
+			camaras[camara_activa].acercar();
 			break;
 		case GLUT_KEY_PAGE_DOWN:
-			Observer_distance /= 1.2;
+			camaras[camara_activa].alejar();
 			break;
 	}
 
@@ -362,11 +363,11 @@ void Escena::change_projection( const float ratio_xy )
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
 	const float wy = 0.84 * Front_plane,
-		    wx = ratio_xy * wy;
-	if(camara_activa != 1)
-		glFrustum( -wx, +wx, -wy, +wy, Front_plane, Back_plane );
+		    	wx = ratio_xy * wy;
+	if(!camaras[camara_activa].esOrtogonal())
+		camaras[camara_activa].proyeccionPerspectiva(-wx, +wx, -wy, +wy, Front_plane, Back_plane);
 	else
-		camaras[camara_activa].proyeccionOrto();
+		camaras[camara_activa].proyeccionOrto(-wx, +wx, -wy, +wy, -20.0, 20.0);
 }
 //***************************************************************************
 // Funcion que se invoca cuando cambia el tamaño de la ventana
@@ -398,7 +399,6 @@ void Escena::change_observer()
 {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glTranslatef( 0.0, 0.0, -Observer_distance );
 	camaras[camara_activa].setObservador();
 }
 //***************************************************************************

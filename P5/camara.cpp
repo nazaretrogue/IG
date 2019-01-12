@@ -1,37 +1,91 @@
 #include "camara.h"
 
-Camara::Camara()
-{
-    Observer_angle_x = 0.0;
-    Observer_angle_y = 0.0;
-}
-
 Camara::Camara(bool camara_orto)
 {
-    if(camara_orto)
-    {
-        left = -5.0;
-        right = 5.0;
-        bottom = -5.0;
-        top = 5.0;
-        near = 2.0;
-        far = 12.0;
-    }
+	Observer_angle_x = 0.0;
+	Observer_angle_y = 0.0;
+	Observer_distance_pers = 2.0;
+	orto = false;
+
+	if(camara_orto)
+	{
+		Observer_distance_ort = 15.0;
+		left = right = bottom = top = near = far = 0.0;
+		orto = true;
+	}
 }
 
-void Camara::girar(int x, int y)
+void Camara::girar(GLfloat x, GLfloat y)
 {
-    Observer_angle_x += x;
-    Observer_angle_y += y;
+	if(!orto)
+	{
+		Observer_angle_x += x;
+		Observer_angle_y += y;
+	}
 }
 
 void Camara::setObservador()
 {
-    glRotatef(Observer_angle_x, 1.0, 0.0, 0.0);
-    glRotatef(Observer_angle_y, 0.0, 1.0, 0.0);
+	if(!orto)
+	{
+		glTranslatef(0.0, 0.0, -Observer_distance_pers);
+		glRotatef(Observer_angle_x, 1.0, 0.0, 0.0);
+		glRotatef(Observer_angle_y, 0.0, 1.0, 0.0);
+	}
 }
 
-void Camara::proyeccionOrto()
+void Camara::acercar()
 {
-    glOrtho(left, right, bottom, top, near, far);
+	if(!orto)
+    	Observer_distance_pers /= 1.2;
+
+	else
+	{
+		Observer_distance_ort /= 1.2;
+		iniciarCamaraOrto();
+	}
+}
+
+void Camara::alejar()
+{
+	if(!orto)
+    	Observer_distance_pers *= 1.2;
+
+	else
+	{
+		Observer_distance_ort *= 1.2;
+		iniciarCamaraOrto();
+	}
+}
+
+void Camara::proyeccionPerspectiva(GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f)
+{
+    glFrustum(l, r, b, t, n, f);
+}
+
+void Camara::proyeccionOrto(GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f)
+{
+	left = l;
+	right = r;
+	bottom = b;
+	top = t;
+	near = n;
+	far = f;
+
+	glOrtho(Observer_distance_ort*left, Observer_distance_ort*right,
+			Observer_distance_ort*bottom, Observer_distance_ort*top, near, far);
+}
+
+void Camara::iniciarCamaraOrto()
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glOrtho(Observer_distance_ort*left, Observer_distance_ort*right,
+			Observer_distance_ort*bottom, Observer_distance_ort*top, near, far);
+}
+
+bool Camara::esOrtogonal()
+{
+	return orto;
 }

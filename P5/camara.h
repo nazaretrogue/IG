@@ -10,15 +10,21 @@ class Camara
 {
     public:
 
-        Camara();
         Camara(bool camara_orto);
-        void girar(int x, int y);
+        void girar(GLfloat x, GLfloat y);
         void setObservador();
-        void proyeccionOrto();
+        void proyeccionOrto(GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f);
+        void proyeccionPerspectiva(GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f);
+        void iniciarCamaraOrto();
+        void acercar();
+        void alejar();
+        bool esOrtogonal();
 
     private:
 
-        float Observer_angle_x;
-        float Observer_angle_y;
+        GLfloat Observer_angle_x;
+        GLfloat Observer_angle_y;
+        GLfloat Observer_distance_pers, Observer_distance_ort;
         GLfloat right, left, bottom, top, near, far;
+        bool orto;
 };
